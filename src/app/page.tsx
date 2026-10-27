@@ -1,31 +1,35 @@
-'use client'
+import Preloader from "@/components/portfolio/preloader";
+import CustomCursor from "@/components/portfolio/custom-cursor";
+import ParticleField from "@/components/portfolio/particle-field";
+import Nav from "@/components/portfolio/nav";
+import Hero from "@/components/portfolio/hero";
+import About from "@/components/portfolio/about";
+import Projects from "@/components/portfolio/projects";
+import Skills from "@/components/portfolio/skills";
+import Contact from "@/components/portfolio/contact";
 
-export default function Home() {
+export default function Page() {
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      minHeight: '100vh',
-      gap: '2rem',
-      padding: '1rem'
-    }}>
-      <div style={{
-        position: 'relative',
-        width: '6rem',
-        height: '6rem'
-      }}>
-        <img
-          src="/logo.svg"
-          alt="Z.ai Logo"
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'contain'
-          }}
-        />
-      </div>
+    <div className="relative flex min-h-svh flex-col">
+      {/* cinematic boot */}
+      <Preloader />
+
+      {/* global effects */}
+      <CustomCursor />
+      <ParticleField />
+      <div className="film-grain" aria-hidden="true" />
+
+      {/* HUD nav */}
+      <Nav />
+
+      {/* scenes */}
+      <main className="relative z-10 flex flex-1 flex-col">
+        <Hero />
+        <About />
+        <Projects />
+        <Skills />
+        <Contact />
+      </main>
     </div>
-  )
+  );
 }
