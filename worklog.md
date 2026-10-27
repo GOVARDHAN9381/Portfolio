@@ -50,3 +50,23 @@ Work Log:
 Stage Summary:
 - Deliverable: holographic cinematic portfolio — 2 WebGL contexts (hero + modal), memoized, error-guarded
 - User checklist all delivered: 3D holograms ✓ pitch-black void ✓ neon hue matching ✓ mirror effects ✓ fluid buttons ✓ typewriter briefs ✓ staggered fades ✓ HUD polish ✓
+
+---
+Task ID: 3
+Agent: Main agent (Z.ai)
+Task: Personalize portfolio with real identity — Narapareddy Govardhan Reddy
+
+Work Log:
+- User supplied full dossier (name, education, 14 projects, skills matrix, 6-phase journey, socials, 8 photos) + rules: demote Full Stack from headlines; create 3D full-body avatar
+- Copied 8 photos to public/photos (portrait.jpg = navy-suit headshot; bike/nature/campus = off-duty strip)
+- Rewrote src/config/portfolio.ts: real identity (GOVARDHAN REDDY, Chennai coords, email/phone), OPEN TO INTERNSHIPS chip, real bio, role priority chips with "FULL STACK · EXPANDING" last, stats (14+ builds / 11 live / 8 domains / 6 phases), 6 showcase projects with real live URLs (ProjectGuide-AI, CollabIQ, APIAST, ResumeAI, SpectAI, AgriVision), 3 skill groups from real matrix, real marquee stack, journey[] config
+- Built procedural full-body holographic avatar in holograms.tsx (variant "avatar"): power base rings, legs/feet, torso with chest core, A-pose arms, hands, head with pink visor band, traveling ScanBeam ring, idle bob; responsive scale via useThree (1.4 desktop / 1.12 mobile); added "006" AgriVision model
+- Added useVisible IntersectionObserver → Canvas frameloop "always"/"never" (offscreen WebGL pausing)
+- Reworked about.tsx: sticky HOLO-ME panel (avatar canvas + scan sweep + education strip) with floating VERIFIED ID photo card (real headshot, next/image), OFF DUTY filmstrip, role chips, real paragraphs, stats, 6-node journey timeline with glowing rail
+- Updated layout.tsx metadata, hero coords from config, contact EMAIL/PHONE/BASE grid + GitHub/LinkedIn/LeetCode, modal progress ticks dynamic, reel intro/outro copy ("Six missions. All deployed." + vault mention)
+- Browser-verified desktop + mobile: hero, avatar head-to-toe, ID card, filmstrip, journey, reel with real projects, modal typewriter with real stack, contact; lint clean, no console errors
+
+Stage Summary:
+- Portfolio fully personalized; all placeholder content replaced with real dossier
+- Full Stack demoted per user rule (role chips last, dimmed; hero role = ASPIRING SOFTWARE DEVELOPER)
+- 3D avatar approach: procedural hologram mannequin (theme-consistent) + real photo as verified ID card

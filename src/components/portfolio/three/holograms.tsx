@@ -4,10 +4,12 @@ import {
   Component,
   memo,
   Suspense,
+  useEffect,
   useRef,
+  useState,
   type ReactNode,
 } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Float, MeshReflectorMaterial, Stars } from "@react-three/drei";
 import * as THREE from "three";
 
@@ -73,6 +75,23 @@ function Rig({
   );
 }
 
+/* ── pause rendering when the canvas scrolls offscreen (perf guard) ── */
+function useVisible() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(true);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setVisible(!!entry?.isIntersecting),
+      { threshold: 0.02 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return { ref, visible };
+}
+
 /* ── orbiting satellite ring ── */
 function OrbitRing({
   radius,
@@ -106,9 +125,130 @@ function OrbitRing({
 }
 
 /* ── the hologram library ── */
-export type HoloVariant = "hero" | "001" | "002" | "003" | "004" | "005";
+export type HoloVariant = "hero" | "avatar" | "001" | "002" | "003" | "004" | "005" | "006";
+
+/* ── idle bob for the avatar ── */
+function AvatarIdle({ children }: { children: ReactNode }) {
+  const ref = useRef<THREE.Group>(null!);
+  useFrame((state) => {
+    const t = state.clock.elapsedTime;
+    ref.current.position.y = Math.sin(t * 1.1) * 0.02;
+  });
+  return <group ref={ref}>{children}</group>;
+}
+
+/* ── scanning beam ring that travels up the body ── */
+function ScanBeam() {
+  const ref = useRef<THREE.Mesh>(null!);
+  useFrame((state) => {
+    const t = (state.clock.elapsedTime % 3.2) / 3.2;
+    ref.current.position.y = t * 1.95;
+    const mat = ref.current.material as THREE.MeshBasicMaterial;
+    mat.opacity = 0.75 * (1 - Math.abs(t - 0.5) * 0.9);
+  });
+  return (
+    <mesh ref={ref} rotation={[Math.PI / 2, 0, 0]}>
+      <torusGeometry args={[0.52, 0.006, 8, 64]} />
+      <meshBasicMaterial color="#00f0ff" transparent opacity={0.7} depthWrite={false} />
+    </mesh>
+  );
+}
+
+/* ── THE FULL-BODY HOLOGRAPHIC AVATAR ── */
+function AvatarModel() {
+  // shrink to fit narrow (portrait) viewports so head-to-toe stays in frame
+  const size = useThree((s) => s.size);
+  const s = size.width < 640 ? 1.12 : 1.4;
+  return (
+    <AvatarIdle>
+      <group position={[0, -1.68, 0]} scale={[s, s, s]}>
+        {/* power base */}
+        <mesh position={[0, 0.01, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+          <ringGeometry args={[0.34, 0.37, 48]} />
+          <Holo color="#00f0ff" opacity={0.5} />
+        </mesh>
+        <mesh position={[0, 0.01, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+          <ringGeometry args={[0.5, 0.505, 48]} />
+          <Holo color="#a78bfa" opacity={0.35} />
+        </mesh>
+
+        {/* legs */}
+        <mesh position={[-0.09, 0.43, 0]}>
+          <cylinderGeometry args={[0.06, 0.05, 0.86, 10]} />
+          <Holo color="#4df0ff" opacity={0.42} />
+        </mesh>
+        <mesh position={[0.09, 0.43, 0]}>
+          <cylinderGeometry args={[0.06, 0.05, 0.86, 10]} />
+          <Holo color="#4df0ff" opacity={0.42} />
+        </mesh>
+        {/* feet */}
+        <mesh position={[-0.09, 0.03, 0.05]}>
+          <boxGeometry args={[0.1, 0.05, 0.24]} />
+          <Holo color="#4df0ff" opacity={0.5} />
+        </mesh>
+        <mesh position={[0.09, 0.03, 0.05]}>
+          <boxGeometry args={[0.1, 0.05, 0.24]} />
+          <Holo color="#4df0ff" opacity={0.5} />
+        </mesh>
+
+        {/* hips + torso */}
+        <mesh position={[0, 0.88, 0]} scale={[1, 0.8, 0.8]}>
+          <sphereGeometry args={[0.13, 14, 14]} />
+          <Holo color="#4df0ff" opacity={0.45} />
+        </mesh>
+        <mesh position={[0, 1.15, 0]}>
+          <cylinderGeometry args={[0.17, 0.13, 0.56, 14]} />
+          <Holo color="#4df0ff" opacity={0.48} />
+        </mesh>
+        {/* core light in the chest */}
+        <mesh position={[0, 1.18, 0]} scale={[0.6, 0.9, 0.6]}>
+          <icosahedronGeometry args={[0.09, 0]} />
+          <meshBasicMaterial color="#00f0ff" transparent opacity={0.5} depthWrite={false} />
+        </mesh>
+
+        {/* arms — slight A-pose */}
+        <mesh position={[-0.25, 1.11, 0]} rotation={[0, 0, 0.16]}>
+          <cylinderGeometry args={[0.045, 0.038, 0.62, 10]} />
+          <Holo color="#4df0ff" opacity={0.42} />
+        </mesh>
+        <mesh position={[0.25, 1.11, 0]} rotation={[0, 0, -0.16]}>
+          <cylinderGeometry args={[0.045, 0.038, 0.62, 10]} />
+          <Holo color="#4df0ff" opacity={0.42} />
+        </mesh>
+        {/* hands */}
+        <mesh position={[-0.295, 0.76, 0]}>
+          <sphereGeometry args={[0.05, 10, 10]} />
+          <Holo color="#8ef5ff" opacity={0.55} />
+        </mesh>
+        <mesh position={[0.295, 0.76, 0]}>
+          <sphereGeometry args={[0.05, 10, 10]} />
+          <Holo color="#8ef5ff" opacity={0.55} />
+        </mesh>
+
+        {/* neck + head */}
+        <mesh position={[0, 1.47, 0]}>
+          <cylinderGeometry args={[0.045, 0.05, 0.1, 10]} />
+          <Holo color="#4df0ff" opacity={0.45} />
+        </mesh>
+        <mesh position={[0, 1.63, 0]}>
+          <sphereGeometry args={[0.115, 16, 16]} />
+          <Holo color="#8ef5ff" opacity={0.55} />
+        </mesh>
+        {/* visor band */}
+        <mesh position={[0, 1.65, 0]} rotation={[Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[0.085, 0.005, 6, 40]} />
+          <Holo color="#f0abfc" opacity={0.6} />
+        </mesh>
+
+        {/* scanning beam */}
+        <ScanBeam />
+      </group>
+    </AvatarIdle>
+  );
+}
 
 function Model({ variant }: { variant: HoloVariant }) {
+  if (variant === "avatar") return <AvatarModel />;
   switch (variant) {
     case "hero": // the core — everything orbits this
       return (
@@ -205,7 +345,7 @@ function Model({ variant }: { variant: HoloVariant }) {
           </mesh>
         </group>
       );
-    case "005": // ORBITAL CMS — satellite system
+    case "005": // SPECTAI — vision lens rings
       return (
         <group>
           <mesh>
@@ -214,6 +354,24 @@ function Model({ variant }: { variant: HoloVariant }) {
           </mesh>
           <OrbitRing radius={1.35} speed={1.1} tilt={Math.PI / 2.6} color="#00f0ff" />
           <OrbitRing radius={1.8} speed={-0.7} tilt={Math.PI / 1.9} color="#f0abfc" />
+        </group>
+      );
+    case "006": // AGRIVISION — eco field sphere
+      return (
+        <group>
+          <mesh>
+            <icosahedronGeometry args={[1.05, 1]} />
+            <Holo color="#8ef5ff" opacity={0.5} />
+          </mesh>
+          <mesh rotation={[Math.PI / 2.5, 0.4, 0]}>
+            <torusGeometry args={[1.5, 0.012, 8, 90]} />
+            <Holo color="#f0abfc" opacity={0.55} />
+          </mesh>
+          <mesh rotation={[Math.PI / 1.7, -0.3, 0]}>
+            <torusGeometry args={[1.8, 0.009, 8, 90]} />
+            <Holo color="#a78bfa" opacity={0.45} />
+          </mesh>
+          <OrbitRing radius={1.25} speed={0.8} tilt={Math.PI / 2.1} color="#00f0ff" />
         </group>
       );
   }
@@ -236,11 +394,13 @@ export const HoloCanvas = memo(function HoloCanvas({
   reflect?: boolean;
   className?: string;
 }) {
+  const { ref, visible } = useVisible();
   return (
     <GLBoundary>
-      <div className={className}>
+      <div className={className} ref={ref}>
         <Canvas
           dpr={[1, 1.6]}
+          frameloop={visible ? "always" : "never"}
           gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
           camera={{ position: [0, 0.85, 4.9], fov: 42 }}
         >

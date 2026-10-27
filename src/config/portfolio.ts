@@ -1,43 +1,100 @@
 /**
  * ─────────────────────────────────────────────────────────────
- *  PORTFOLIO CONTENT — EDIT THIS FILE TO MAKE IT YOURS
- *  Swap the placeholder name, links, projects & skills here.
- *  Every scene on the site reads from this single source.
+ *  PORTFOLIO CONTENT — NARAPAREDDY GOVARDHAN REDDY
+ *  Single source of truth. Edit here to update the whole site.
  * ─────────────────────────────────────────────────────────────
  */
 
 export const identity = {
-  firstName: "AARAV",
-  lastName: "MEHTA",
-  role: "CREATIVE DEVELOPER",
+  firstName: "GOVARDHAN",
+  lastName: "REDDY",
+  fullName: "Narapareddy Govardhan Reddy",
+  role: "ASPIRING SOFTWARE DEVELOPER",
   tagline:
-    "I engineer cinematic web experiences — fusing design, motion and code into products people remember.",
-  location: "MUMBAI, IN",
-  availability: "AVAILABLE FOR WORK",
-  email: "hello@aaravmehta.dev",
+    "Computer Science Engineering student passionate about software development, artificial intelligence and cloud automation — I build practical, high-impact applications that solve real-world problems, from AI-guided mentoring platforms to security-tested systems.",
+  location: "CHENNAI, TN, IN",
+  availability: "OPEN TO INTERNSHIPS",
+  email: "ngovardhanreddy9381@gmail.com",
+  phone: "+91 93817 26915",
+  phoneHref: "tel:+919381726915",
+  coords: { lat: "13.0827° N", long: "80.2707° E" },
 };
 
 export const socials = [
-  { label: "GITHUB", href: "https://github.com/your-username" },
-  { label: "LINKEDIN", href: "https://linkedin.com/in/your-username" },
-  { label: "X / TWITTER", href: "https://x.com/your-username" },
-  { label: "DRIBBBLE", href: "https://dribbble.com/your-username" },
+  { label: "GITHUB", href: "https://github.com/GOVARDHAN9381" },
+  {
+    label: "LINKEDIN",
+    href: "https://www.linkedin.com/in/narapareddy-govardhan-reddy-a18423346/",
+  },
+  { label: "LEETCODE", href: "https://leetcode.com/u/750RdF0JQo/" },
 ];
 
 export const about = {
   paragraphs: [
-    "I'm a developer who treats the browser like a film set. For the past 5 years I've been obsessed with one question: how do you make software feel alive? The answer, I've learned, lives at the intersection of engineering discipline and cinematic storytelling.",
-    "From realtime dashboards processing millions of events to award-winning marketing sites with buttery 60fps motion — I design and build products where every scroll, hover and transition is intentional. Performance is not an afterthought; it's the stage the whole performance stands on.",
+    "I'm Narapareddy Govardhan Reddy — a B.E. Computer Science Engineering student at Saveetha School of Engineering, SIMATS (Class of 2028). My technical journey spans end-to-end web applications, multi-agent AI systems, API security testing, and cloud deployment workflows.",
+    "I've shipped deployed solutions including ProjectGuide-AI (an academic project mentor), CollabIQ (a student teaming platform), and APIAST (an automated API vulnerability tester). Right now I'm sharpening my problem-solving with Java & DSA on LeetCode and gaining hands-on industry exposure through the Infosys Springboard Virtual Internship 7.0.",
   ],
-  quote: "Code is the camera. Design is the script. Shipping is the premiere.",
+  quote: "Learn. Build. Deploy. Repeat.",
   stats: [
-    { value: 5, suffix: "+", label: "YEARS CRAFTING" },
-    { value: 42, suffix: "", label: "PROJECTS SHIPPED" },
-    { value: 18, suffix: "+", label: "HAPPY CLIENTS" },
-    { value: 60, suffix: "FPS", label: "ALWAYS THE TARGET" },
+    { value: 14, suffix: "+", label: "PROJECTS BUILT" },
+    { value: 11, suffix: "", label: "LIVE DEPLOYMENTS" },
+    { value: 8, suffix: "", label: "TECH DOMAINS" },
+    { value: 6, suffix: "", label: "JOURNEY PHASES" },
   ],
-  portraitEmoji: "🧑‍💻",
+  education: "B.E. CSE · SAVEETHA SCHOOL OF ENGINEERING",
+  batch: "CLASS OF 2028",
+  // Role priorities — Full Stack intentionally last
+  roles: [
+    "AI APPLICATION DEVELOPER",
+    "PROBLEM SOLVER · JAVA & DSA",
+    "DEVOPS & CLOUD ENTHUSIAST",
+    "FULL STACK · EXPANDING",
+  ],
+  internship: "INFOSYS SPRINGBOARD VIRTUAL INTERNSHIP 7.0",
+  photos: {
+    main: "/photos/portrait.jpg",
+    strip: ["/photos/bike.jpg", "/photos/nature.jpg", "/photos/campus.jpg"],
+  },
 };
+
+export const journey = [
+  {
+    phase: "01",
+    year: "2024 →",
+    title: "ACADEMIC FOUNDATION",
+    desc: "B.E. Computer Science Engineering at Saveetha — strong grounding in C, C++, Java, Python and core computing concepts.",
+  },
+  {
+    phase: "02",
+    year: "PHASE II",
+    title: "MODERN WEB ENGINEERING",
+    desc: "Responsive frontends with React + Vite, backed by REST APIs, MySQL/PostgreSQL and cloud deploys on Vercel & Railway.",
+  },
+  {
+    phase: "03",
+    year: "PHASE III",
+    title: "AI & APPLIED ML",
+    desc: "Multi-agent architectures with CrewAI/LangChain, computer vision with OpenCV, and BERT-driven NLP matching.",
+  },
+  {
+    phase: "04",
+    year: "PHASE IV",
+    title: "CAPSTONES & CYBERSECURITY",
+    desc: "Engineered ProjectGuide-AI, CollabIQ and APIAST — vulnerability assessment in authorized environments.",
+  },
+  {
+    phase: "05",
+    year: "INDUSTRY",
+    title: "INFOSYS SPRINGBOARD 7.0",
+    desc: "Virtual internship — team-based software engineering simulations and structured industry learning pathways.",
+  },
+  {
+    phase: "06",
+    year: "NOW",
+    title: "DSA & PLACEMENT PREP",
+    desc: "Solving DSA in Java on LeetCode, mastering Docker & CI/CD pipelines, and hunting software engineering internships.",
+  },
+];
 
 export type Project = {
   index: string;
@@ -55,105 +112,121 @@ export type Project = {
 export const projects: Project[] = [
   {
     index: "001",
-    title: "NEBULA DASH",
-    category: "REALTIME ANALYTICS",
+    title: "PROJECTGUIDE-AI",
+    category: "AI · MULTI-AGENT SYSTEM",
     year: "2025",
     description:
-      "A realtime analytics cockpit streaming 1M+ events per minute over WebSockets, with GPU-accelerated charts and an alert system that thinks before it pings.",
-    stack: ["Next.js", "WebSockets", "ClickHouse", "D3"],
+      "A multi-agent AI platform that evaluates project feasibility, scopes requirements, recommends tech stacks, generates milestone roadmaps, and gives faculty governance tools. Built with CrewAI + LangChain over FastAPI.",
+    stack: ["React 19", "FastAPI", "CrewAI", "LangChain", "MongoDB", "JWT"],
     accent: "cyan",
-    icon: "📡",
-    liveUrl: "#",
-    repoUrl: "#",
+    icon: "🧭",
+    liveUrl: "https://project-guide-ai.vercel.app/",
+    repoUrl: "https://github.com/GOVARDHAN9381",
   },
   {
     index: "002",
-    title: "AURORA OS",
-    category: "WEB EXPERIENCE",
+    title: "COLLABIQ",
+    category: "TEAM INTELLIGENCE PLATFORM",
     year: "2025",
     description:
-      "An operating-system-in-the-browser concept — draggable windows, a physics-based dock and a command palette. Featured across dev communities for its motion design.",
-    stack: ["React", "Framer Motion", "Zustand"],
+      "Student collaboration intelligence that matches complementary peer skills via weighted scoring algorithms — complete with interactive team workspaces and faculty analytics dashboards.",
+    stack: ["PHP 8+", "MySQL", "PostgreSQL", "Supabase", "Chart.js"],
     accent: "violet",
-    icon: "🪐",
-    liveUrl: "#",
-    repoUrl: "#",
+    icon: "🧩",
+    liveUrl: "https://ip-capstone-production.up.railway.app/",
+    repoUrl: "https://github.com/GOVARDHAN9381",
   },
   {
     index: "003",
-    title: "PULSE COMMERCE",
-    category: "E-COMMERCE PLATFORM",
-    year: "2024",
+    title: "APIAST",
+    category: "CYBERSECURITY · API TESTING",
+    year: "2025",
     description:
-      "Headless storefront that cut page-load to 0.8s and lifted conversion 34%. Edge-rendered, cart state synced in realtime, checkout smoother than a heist movie.",
-    stack: ["Next.js", "Stripe", "Prisma", "Redis"],
+      "Automated API security platform providing endpoint discovery, authentication weakness validation, AI risk analysis and real-time vulnerability tracking — tested in authorized environments.",
+    stack: ["Python", "Nmap", "Nikto", "Metasploit", "Kali Linux"],
     accent: "pink",
-    icon: "⚡",
-    liveUrl: "#",
-    repoUrl: "#",
+    icon: "🛡️",
+    liveUrl: "https://api-testing-phi-three.vercel.app/",
+    repoUrl: "https://github.com/GOVARDHAN9381",
   },
   {
     index: "004",
-    title: "ECHO AI",
-    category: "AI PRODUCT",
-    year: "2024",
+    title: "RESUMEAI",
+    category: "AI · NLP SCREENING",
+    year: "2025",
     description:
-      "Conversational analytics assistant that turns plain-English questions into live SQL, charts and insight cards. Streaming responses, zero loading anxiety.",
-    stack: ["TypeScript", "LLM SDK", "PostgreSQL"],
+      "BERT-powered resume parsing and candidate ranking tool featuring ATS scoring, job-description matching, and automated interview question generation for recruiters.",
+    stack: ["BERT NLP", "Scikit-learn", "FastAPI", "Streamlit", "Supabase"],
     accent: "cyan",
     icon: "🧠",
-    liveUrl: "#",
-    repoUrl: "#",
+    liveUrl: "https://ai-resume-analysis-wzya.onrender.com/",
+    repoUrl: "https://github.com/GOVARDHAN9381",
   },
   {
     index: "005",
-    title: "ORBITAL CMS",
-    category: "DEVELOPER TOOLING",
-    year: "2023",
+    title: "SPECTAI",
+    category: "COMPUTER VISION",
+    year: "2024",
     description:
-      "A git-backed content engine with live visual editing and instant previews. Open source, 1.2k stars, and the reason three agencies fired their CMS contracts.",
-    stack: ["Node.js", "Git API", "Monaco"],
+      "Real-time spectacle frame recommender — detects facial landmarks with MediaPipe, measures facial geometry via OpenCV, and recommends compatible eyeglass frames live from your webcam.",
+    stack: ["Python", "OpenCV", "MediaPipe", "JavaScript"],
     accent: "violet",
-    icon: "🛰️",
-    liveUrl: "#",
-    repoUrl: "#",
+    icon: "👓",
+    liveUrl: "https://shimmering-cocada-3bc352.netlify.app/",
+    repoUrl: "https://github.com/GOVARDHAN9381",
+  },
+  {
+    index: "006",
+    title: "AGRIVISION",
+    category: "AGRITECH · EDGE AI",
+    year: "2024",
+    description:
+      "Smart farming advisory platform — plant disease scanning through the camera, crop suitability suggestions, and live market price feeds, running edge AI on-device.",
+    stack: ["Python", "Edge AI", "OpenCV", "Weather APIs"],
+    accent: "pink",
+    icon: "🌾",
+    liveUrl: "https://agrisight-1.onrender.com/",
+    repoUrl: "https://github.com/GOVARDHAN9381",
   },
 ];
 
 export const skillGroups = [
   {
-    group: "FRONTEND",
+    group: "LANGUAGES & CORE",
     items: [
-      { name: "React / Next.js", level: 95 },
-      { name: "TypeScript", level: 92 },
-      { name: "Framer Motion", level: 90 },
-      { name: "Three.js / WebGL", level: 78 },
-      { name: "Tailwind CSS", level: 94 },
+      { name: "Java", level: 88 },
+      { name: "Python", level: 90 },
+      { name: "JavaScript (ES6+)", level: 82 },
+      { name: "C / C++", level: 80 },
+      { name: "SQL", level: 78 },
+      { name: "PHP", level: 72 },
     ],
   },
   {
-    group: "BACKEND",
+    group: "AI & INTELLIGENCE",
     items: [
-      { name: "Node.js / Bun", level: 90 },
-      { name: "PostgreSQL", level: 84 },
-      { name: "Prisma ORM", level: 88 },
-      { name: "WebSockets", level: 82 },
-      { name: "Redis", level: 76 },
+      { name: "CrewAI / LangChain", level: 85 },
+      { name: "BERT NLP", level: 80 },
+      { name: "OpenCV / MediaPipe", level: 82 },
+      { name: "Scikit-learn / Pandas", level: 84 },
+      { name: "TensorFlow / Keras", level: 75 },
+      { name: "Computer Vision", level: 82 },
     ],
   },
   {
-    group: "CRAFT",
+    group: "WEB · CLOUD · SECURITY",
     items: [
-      { name: "UI / UX Design", level: 85 },
-      { name: "Motion Design", level: 91 },
-      { name: "Performance", level: 89 },
-      { name: "System Design", level: 80 },
-      { name: "Accessibility", level: 83 },
+      { name: "React 19 / Vite", level: 88 },
+      { name: "FastAPI / Node.js", level: 86 },
+      { name: "PostgreSQL / MySQL", level: 80 },
+      { name: "Docker / CI-CD", level: 72 },
+      { name: "Linux / Kali", level: 82 },
+      { name: "Nmap / Nikto / Metasploit", level: 76 },
     ],
   },
 ];
 
 export const marqueeTech = [
-  "NEXT.JS", "TYPESCRIPT", "REACT", "NODE.JS", "THREE.JS", "TAILWIND",
-  "POSTGRESQL", "FRAMER MOTION", "WEBGL", "PRISMA", "REDIS", "DOCKER",
+  "JAVA", "PYTHON", "REACT 19", "FASTAPI", "CREWAI", "LANGCHAIN",
+  "BERT NLP", "OPENCV", "MYSQL", "POSTGRESQL", "DOCKER", "KALI LINUX",
 ];

@@ -1,9 +1,16 @@
 "use client";
 
+import Image from "next/image";
+import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
-import { about, identity } from "@/config/portfolio";
+import { about, journey, identity } from "@/config/portfolio";
 import { useScramble } from "@/hooks/use-scramble";
+
+const HoloCanvas = dynamic(
+  () => import("./three/holograms").then((m) => m.HoloCanvas),
+  { ssr: false }
+);
 
 /* ---------- animated counter ---------- */
 function Counter({ value, suffix }: { value: number; suffix: string }) {
@@ -85,7 +92,6 @@ export default function About() {
     target: ref,
     offset: ["start end", "end start"],
   });
-  // portrait parallax drift
   const yPanel = useTransform(scrollYProgress, [0, 1], [60, -60]);
   const rotate = useTransform(scrollYProgress, [0, 1], [1.5, -1.5]);
 
@@ -95,38 +101,36 @@ export default function About() {
         <SectionHeading index="01" title="THE HUMAN BEHIND THE CODE" />
 
         <div className="grid gap-14 lg:grid-cols-[5fr_7fr] lg:gap-20">
-          {/* ---- sticky portrait panel ---- */}
+          {/* ---- sticky holo-me panel ---- */}
           <motion.div style={{ y: yPanel }} className="relative">
             <div className="lg:sticky lg:top-32">
               <motion.div
                 style={{ rotate }}
                 className="glow-box hud-frame relative aspect-[4/5] overflow-hidden bg-card"
               >
-                {/* animated gradient border wash */}
+                {/* full-body holographic avatar */}
+                <div className="absolute inset-0">
+                  <HoloCanvas variant="avatar" />
+                </div>
+
+                {/* scan sweep */}
                 <div
                   aria-hidden="true"
-                  className="absolute inset-0 bg-[conic-gradient(from_180deg_at_50%_50%,rgba(0,240,255,0.08),rgba(167,139,250,0.1),rgba(0,240,255,0.08))] animate-spin-slow"
-                />
-                <div className="tech-grid absolute inset-0" aria-hidden="true" />
+                  className="pointer-events-none absolute inset-x-0 top-0 z-[7] h-24 overflow-hidden"
+                >
+                  <div className="scan-sweep h-16 w-full bg-gradient-to-b from-transparent via-cyan-400/12 to-transparent" />
+                </div>
 
-                {/* portrait placeholder */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-6">
-                  <div className="flex h-32 w-32 items-center justify-center rounded-full border border-cyan-400/30 bg-[#0a0a12] text-6xl shadow-[0_0_50px_rgba(0,240,255,0.2)]">
-                    <span aria-hidden="true">{about.portraitEmoji}</span>
-                  </div>
-                  <div className="text-center">
-                    <p className="font-display text-xl font-bold text-foreground">
-                      {identity.firstName} {identity.lastName}
-                    </p>
-                    <p className="mt-1 font-hud text-[10px] text-cyan-300">
-                      {identity.role}
-                    </p>
-                  </div>
+                {/* top meta */}
+                <div className="pointer-events-none absolute left-4 top-4 z-10 font-hud text-[9px] leading-relaxed text-cyan-300/70">
+                  HOLO-ME · UNIT GR-2028
+                  <br />
+                  RENDER · REALTIME
                 </div>
 
                 {/* bottom meta strip */}
-                <div className="absolute inset-x-0 bottom-0 flex items-center justify-between border-t border-cyan-400/15 bg-[#050508]/80 px-4 py-3 font-hud text-[9px] text-muted-foreground backdrop-blur">
-                  <span>ID · {identity.firstName[0]}{identity.lastName[0]}-2025</span>
+                <div className="absolute inset-x-0 bottom-0 z-10 flex items-center justify-between border-t border-cyan-400/15 bg-[#050508]/80 px-4 py-3 font-hud text-[9px] text-muted-foreground backdrop-blur">
+                  <span>{about.education}</span>
                   <span className="flex items-center gap-1.5">
                     <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
                     ONLINE
@@ -134,21 +138,88 @@ export default function About() {
                 </div>
               </motion.div>
 
-              {/* floating chip */}
+              {/* floating verified ID photo — the real me */}
               <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, x: 30, rotate: 6 }}
+                whileInView={{ opacity: 1, x: 0, rotate: 3 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.4, duration: 0.6 }}
-                className="glow-box-violet absolute -right-3 top-8 border border-violet-400/30 bg-[#0a0a12] px-4 py-2.5 font-hud text-[9px] text-violet-300 sm:-right-8"
+                className="absolute -right-3 top-8 sm:-right-8"
               >
-                EST. 2020 — STILL DEBUGGING
+                <div className="hud-frame w-24 border border-cyan-400/40 bg-[#0a0a12] p-1 shadow-[0_0_30px_rgba(0,240,255,0.25)] sm:w-28">
+                  <div className="relative aspect-[3/4] w-full overflow-hidden">
+                    <Image
+                      src={about.photos.main}
+                      alt={`Portrait of ${identity.fullName}`}
+                      fill
+                      sizes="112px"
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="py-1.5 text-center font-hud text-[7px] tracking-[0.18em] text-cyan-300">
+                    ✓ VERIFIED · {about.batch}
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* off-duty filmstrip */}
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.5, duration: 0.6 }}
+                className="mt-6"
+              >
+                <div className="mb-2 flex items-center justify-between font-hud text-[9px] text-muted-foreground">
+                  <span>OFF DUTY //</span>
+                  <span className="text-cyan-300/70">RIDES · SUMMITS · CAMPUS</span>
+                </div>
+                <div className="grid grid-cols-3 gap-2">
+                  {about.photos.strip.map((src, i) => (
+                    <div
+                      key={src}
+                      className="hud-frame group relative h-20 overflow-hidden border border-white/8 sm:h-24"
+                    >
+                      <Image
+                        src={src}
+                        alt={
+                          ["Royal Enfield ride", "Summit arms wide", "Campus day"][
+                            i
+                          ] ?? "Personal photo"
+                        }
+                        fill
+                        sizes="160px"
+                        className="object-cover grayscale transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0"
+                      />
+                    </div>
+                  ))}
+                </div>
               </motion.div>
             </div>
           </motion.div>
 
           {/* ---- story ---- */}
           <div className="flex flex-col justify-center">
+            {/* role priority chips — full stack last by design */}
+            <Reveal>
+              <div className="mb-8 flex flex-wrap gap-2">
+                {about.roles.map((r, i) => (
+                  <span
+                    key={r}
+                    className={`border px-3 py-1.5 font-hud text-[9px] ${
+                      i === 0
+                        ? "border-cyan-400/50 bg-cyan-400/10 text-cyan-300"
+                        : i === about.roles.length - 1
+                          ? "border-white/10 text-muted-foreground/70"
+                          : "border-violet-400/30 text-violet-300"
+                    }`}
+                  >
+                    {r}
+                  </span>
+                ))}
+              </div>
+            </Reveal>
+
             {about.paragraphs.map((p, i) => (
               <Reveal key={i} delay={i * 0.12}>
                 <p className="mb-7 text-base leading-relaxed text-muted-foreground sm:text-lg">
@@ -184,6 +255,54 @@ export default function About() {
                   </div>
                 </motion.div>
               ))}
+            </div>
+
+            {/* journey timeline */}
+            <div className="mt-16">
+              <div className="mb-8 flex items-center gap-3">
+                <span className="font-hud text-[10px] text-violet-300">
+                  THE JOURNEY
+                </span>
+                <span aria-hidden="true" className="h-px w-16 bg-violet-400/40" />
+                <span className="font-hud text-[9px] text-muted-foreground">
+                  {about.internship}
+                </span>
+              </div>
+
+              <ol className="relative space-y-8 border-l border-white/10 pl-8">
+                {journey.map((j, i) => (
+                  <motion.li
+                    key={j.phase}
+                    initial={{ opacity: 0, x: -30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "-60px" }}
+                    transition={{ delay: i * 0.06, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                    className="group relative"
+                  >
+                    {/* node */}
+                    <span
+                      aria-hidden="true"
+                      className="absolute -left-[38px] top-1 flex h-3 w-3 items-center justify-center rounded-full border border-cyan-400/60 bg-[#050508] transition-all group-hover:shadow-[0_0_14px_rgba(0,240,255,0.7)]"
+                    >
+                      <span className="h-1 w-1 rounded-full bg-cyan-300" />
+                    </span>
+                    <div className="flex flex-wrap items-baseline gap-x-4">
+                      <span className="font-hud text-[9px] text-cyan-400/80">
+                        {j.phase}
+                      </span>
+                      <span className="font-hud text-[9px] text-muted-foreground">
+                        {j.year}
+                      </span>
+                      <h4 className="font-display text-base font-bold text-foreground transition-colors group-hover:text-cyan-200 sm:text-lg">
+                        {j.title}
+                      </h4>
+                    </div>
+                    <p className="mt-1.5 max-w-xl text-sm leading-relaxed text-muted-foreground">
+                      {j.desc}
+                    </p>
+                  </motion.li>
+                ))}
+              </ol>
             </div>
           </div>
         </div>

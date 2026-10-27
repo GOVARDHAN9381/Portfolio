@@ -91,9 +91,9 @@ export default function Hero() {
         aria-hidden="true"
         className="absolute bottom-10 left-6 z-10 font-hud text-[9px] text-cyan-300/50 sm:left-10"
       >
-        LAT 19.0760° N
+        LAT {identity.coords.lat}
         <br />
-        LONG 72.8777° E
+        LONG {identity.coords.long}
       </div>
       <div
         aria-hidden="true"

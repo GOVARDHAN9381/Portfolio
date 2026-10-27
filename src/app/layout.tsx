@@ -13,18 +13,20 @@ const monoHud = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AARAV MEHTA — Creative Developer",
+  title: "GOVARDHAN REDDY — Aspiring Software Developer",
   description:
-    "Portfolio of Aarav Mehta — a creative developer engineering cinematic web experiences with design, motion and code.",
+    "Portfolio of Narapareddy Govardhan Reddy — CSE student and aspiring software developer building AI systems, security tools and modern web applications. Class of 2028, Saveetha School of Engineering.",
   keywords: [
+    "Govardhan Reddy",
     "portfolio",
-    "creative developer",
-    "frontend engineer",
-    "web experience",
-    "Next.js",
-    "motion design",
+    "CSE student",
+    "AI developer",
+    "Java DSA",
+    "FastAPI",
+    "CrewAI",
+    "cybersecurity",
   ],
-  authors: [{ name: "Aarav Mehta" }],
+  authors: [{ name: "Narapareddy Govardhan Reddy" }],
 };
 
 export default function RootLayout({

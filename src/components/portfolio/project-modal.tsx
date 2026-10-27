@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, ExternalLink, Github, X } from "lucide-react";
+import { projects } from "@/config/portfolio";
 import type { Project } from "@/config/portfolio";
 import { useTypewriter } from "@/hooks/use-typewriter";
 import FluidButton from "./fluid-button";
@@ -240,11 +241,11 @@ export default function ProjectModal({
               </button>
 
               <div className="flex items-center gap-2" aria-hidden="true">
-                {["001", "002", "003", "004", "005"].map((idx) => (
+                {projects.map((p) => (
                   <span
-                    key={idx}
+                    key={p.index}
                     className={`h-1 rounded-full transition-all duration-400 ${
-                      idx === project.index
+                      p.index === project.index
                         ? "w-7 bg-cyan-300 shadow-[0_0_8px_rgba(0,240,255,0.8)]"
                         : "w-3 bg-white/15"
                     }`}

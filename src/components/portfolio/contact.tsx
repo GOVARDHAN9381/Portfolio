@@ -73,6 +73,47 @@ export default function Contact() {
               </li>
             ))}
           </motion.ul>
+
+          {/* direct channels */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.7, delay: 0.45 }}
+            className="mt-10 grid gap-px overflow-hidden border border-white/5 bg-white/5 sm:grid-cols-3"
+          >
+            {[
+              {
+                k: "EMAIL",
+                v: identity.email,
+                href: `mailto:${identity.email}`,
+              },
+              {
+                k: "PHONE",
+                v: identity.phone,
+                href: identity.phoneHref,
+              },
+              {
+                k: "BASE",
+                v: identity.location,
+                href: undefined,
+              },
+            ].map((row) => (
+              <div key={row.k} className="group bg-[#07070c] p-5 transition-colors hover:bg-cyan-400/5">
+                <div className="font-hud text-[9px] text-muted-foreground">{row.k}</div>
+                {row.href ? (
+                  <a
+                    href={row.href}
+                    className="mt-2 inline-block break-all text-sm text-foreground/90 transition-colors hover:text-cyan-300"
+                  >
+                    {row.v}
+                  </a>
+                ) : (
+                  <div className="mt-2 text-sm text-foreground/90">{row.v}</div>
+                )}
+              </div>
+            ))}
+          </motion.div>
         </div>
       </div>
 

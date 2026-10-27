@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { ExternalLink, Github } from "lucide-react";
-import { projects, type Project } from "@/config/portfolio";
+import { projects, socials, type Project } from "@/config/portfolio";
 import { SectionHeading } from "./about";
 import ProjectModal from "./project-modal";
 
@@ -217,16 +217,16 @@ export default function Projects() {
             {/* intro card */}
             <div className="w-[30vw] shrink-0">
               <p className="font-display text-3xl font-bold leading-snug text-foreground">
-                Five missions.
+                Six missions.
                 <br />
-                <span className="gradient-text animate-gradient-flow">Zero routines.</span>
+                <span className="gradient-text animate-gradient-flow">All deployed.</span>
               </p>
               <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
-                Each build below shipped to real users — realtime dashboards, AI
-                products, commerce engines. Press one to project its hologram.
+                AI mentors, security scanners, vision systems — every build below
+                is live in production. Press one to project its hologram.
               </p>
               <div className="mt-8 font-hud text-[10px] text-cyan-300">
-                → REEL MOVES WITH YOUR SCROLL
+                → REEL MOVES WITH YOUR SCROLL · 06 LIVE BUILDS
               </div>
             </div>
 
@@ -237,10 +237,18 @@ export default function Projects() {
             {/* outro card */}
             <div className="flex w-[26vw] shrink-0 flex-col items-start justify-center gap-4 pr-[10vw]">
               <p className="font-display text-2xl font-bold text-foreground">
-                And the reel keeps rolling…
+                Six missions declassified.
+                <br />
+                <span className="gradient-text animate-gradient-flow">
+                  More in the vault…
+                </span>
+              </p>
+              <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">
+                Risk Assessment Tool, MedCare HMS, FraudShield AI, a compiler
+                visualizer — plus IoT and encryption research in the lab.
               </p>
               <a
-                href="https://github.com/your-username"
+                href={socials.find((s) => s.label === "GITHUB")?.href ?? "#"}
                 target="_blank"
                 rel="noreferrer"
                 className="sheen border border-cyan-400/40 px-6 py-3 font-hud text-[10px] text-cyan-300 transition-all hover:bg-cyan-400/10 hover:shadow-[0_0_30px_rgba(0,240,255,0.3)]"
@@ -254,7 +262,7 @@ export default function Projects() {
           <div className="absolute bottom-8 left-1/2 z-20 -translate-x-1/2 border border-cyan-400/20 bg-[#050508]/85 px-5 py-2.5 backdrop-blur-md">
             <div className="mb-2 flex w-56 justify-between font-hud text-[9px] text-muted-foreground">
               <span className="text-cyan-300">REEL</span>
-              <span>05 MISSIONS</span>
+              <span>06 MISSIONS</span>
             </div>
             <div className="h-px w-full bg-white/10">
               <motion.div
