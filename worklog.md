@@ -135,3 +135,23 @@ Stage Summary:
 - v3 Peachworlds-grade rebuild verified live on desktop + mobile: scroll-driven camera descent, GLSL fresnel sphere, bloom/vignette pipeline, portal gate, monolith fields, DeepCore finale, ScrollHud % indicator
 - All prior features (preloader, dossiers, typewriter, fluid buttons, mirror, real identity + photos) intact on top of the new world
 - Deliverable stable and lint-clean
+
+---
+Task ID: 7
+Agent: Main agent (Z.ai)
+Task: Replace wireframe mannequin with professional 3D full-body hologram built from real photos
+
+Work Log:
+- User feedback: "not like this i need 3d professional full body with reference photos of mine" — the procedural wireframe mannequin in HOLO-ME panel rejected
+- Loaded image-edit skill; generated 2 professional full-body studio renders from real photos (portrait.jpg + selfie.jpg as identity references, z-ai images.generations.edit, 768x1344, chroma-green backdrop prompt) -> scripts/assets/fullbody_suit.png (arms at sides) chosen
+- scripts/cutout_fullbody.py: green-dominance chroma key -> despill -> largest-connected-component cleanup (killed shadow blob) -> feathered RGBA cutout 342x1100 (230 KB) -> public/holo/fullbody.png; extracted 1365 normalized silhouette edge points -> generated src/components/portfolio/three/holo-edges.ts module
+- Built src/components/portfolio/three/holo-body.tsx (HoloBodyCanvas): photoreal body plane with GLSL hologram shader — feet-first materialize sweep (easeOutCubic 2.1s, hot build edge), thin traveling scan line (0.022 uv width, synced external light-strip), occasional glitch slice offsets, scanlines + flicker, cinematic brightness lift (x1.28) + mint shadow grade; 3 additive silhouette halo layers behind for rim glow + parallax depth echoes; 1365-point drifting edge-particle field; pulsing emitter stage rings + glow disc + mint point light; MeshReflectorMaterial mirror floor; pointer sway rig + idle bob; GLBoundary + IntersectionObserver frameloop pause; zero-rerender pointer state
+- about.tsx: dynamic import swapped HoloCanvas avatar -> HoloBodyCanvas; holograms.tsx: removed dead AvatarModel/AvatarIdle/ScanBeam + "hero"/"avatar" variants
+- Lint fixes: react-hooks/immutability — uniform mutation via material ref, texture loaded imperatively in useMemo (no hook-returned mutation)
+- Shader tuning across 2 iterations: beam width 0.045 -> 0.07 (too wide) -> 0.022 thin line; brightness lift added after first look read too dark
+- Verified desktop 1440x900 (4 screenshots) + mobile 390x844: full body head-to-toe, face/suit legible, scan line elegant, ID card + filmstrip intact; zero console errors, lint clean
+
+Stage Summary:
+- HOLO-ME panel now projects a professional photo-real full-body hologram of the actual user with hologram-shader treatment — replaces wireframe mannequin
+- Assets: public/holo/fullbody.png + holo-edges.ts; regenerable via scripts/gen_fullbody.mjs + cutout_fullbody.py
+- Screenshots: scripts/verify/v4-01..v4-06

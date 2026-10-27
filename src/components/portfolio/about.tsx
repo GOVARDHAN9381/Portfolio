@@ -7,8 +7,8 @@ import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { about, journey, identity } from "@/config/portfolio";
 import { useScramble } from "@/hooks/use-scramble";
 
-const HoloCanvas = dynamic(
-  () => import("./three/holograms").then((m) => m.HoloCanvas),
+const HoloBodyCanvas = dynamic(
+  () => import("./three/holo-body").then((m) => m.HoloBodyCanvas),
   { ssr: false }
 );
 
@@ -108,9 +108,9 @@ export default function About() {
                 style={{ rotate }}
                 className="glow-box hud-frame relative aspect-[4/5] overflow-hidden bg-card"
               >
-                {/* full-body holographic avatar */}
+                {/* professional full-body hologram — built from real photos */}
                 <div className="absolute inset-0">
-                  <HoloCanvas variant="avatar" />
+                  <HoloBodyCanvas />
                 </div>
 
                 {/* scan sweep */}
