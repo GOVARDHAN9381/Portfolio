@@ -76,6 +76,12 @@ export default function Hero() {
       {/* tech grid backdrop (above canvas, below content) */}
       <div className="tech-grid pointer-events-none absolute inset-0 z-[1]" aria-hidden="true" />
 
+      {/* readability scrim — on narrow screens the hologram centers behind the text */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_120%_72%_at_30%_46%,rgba(5,5,8,0.84),rgba(5,5,8,0.38)_54%,transparent_76%)] lg:hidden"
+      />
+
       {/* aurora blobs */}
       <div
         aria-hidden="true"
