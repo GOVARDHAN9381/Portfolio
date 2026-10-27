@@ -1,12 +1,12 @@
 import Preloader from "@/components/portfolio/preloader";
 import CustomCursor from "@/components/portfolio/custom-cursor";
-import ParticleField from "@/components/portfolio/particle-field";
 import Nav from "@/components/portfolio/nav";
 import Hero from "@/components/portfolio/hero";
 import About from "@/components/portfolio/about";
 import Projects from "@/components/portfolio/projects";
 import Skills from "@/components/portfolio/skills";
 import Contact from "@/components/portfolio/contact";
+import { ScrollWorld, ScrollHud } from "@/components/portfolio/three/scroll-world";
 
 export default function Page() {
   return (
@@ -14,13 +14,16 @@ export default function Page() {
       {/* cinematic boot */}
       <Preloader />
 
+      {/* the persistent 3D world — scroll drives the camera descent */}
+      <ScrollWorld />
+
       {/* global effects */}
       <CustomCursor />
-      <ParticleField />
       <div className="film-grain" aria-hidden="true" />
 
-      {/* HUD nav */}
+      {/* HUD nav + descent indicator */}
       <Nav />
+      <ScrollHud />
 
       {/* scenes */}
       <main className="relative z-10 flex flex-1 flex-col">

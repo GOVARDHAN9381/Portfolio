@@ -64,16 +64,16 @@ export default function Preloader({ onDone }: { onDone?: () => void }) {
             exit={{ opacity: 0, filter: "blur(6px)" }}
             transition={{ duration: 0.3 }}
           >
-            <div className="font-hud text-[10px] text-cyan-300/70">
+            <div className="font-hud text-[10px] text-emerald-300/70">
               {bootLine} ...
             </div>
             <div className="font-display text-7xl font-bold tabular-nums text-foreground glow-text-cyan">
               {String(count).padStart(3, "0")}
-              <span className="text-cyan-400/60 text-4xl">%</span>
+              <span className="text-emerald-400/60 text-4xl">%</span>
             </div>
             <div className="relative h-px w-52 overflow-hidden bg-white/10">
               <div
-                className="absolute inset-y-0 left-0 bg-gradient-to-r from-cyan-400 to-violet-400 transition-[width] duration-100"
+                className="absolute inset-y-0 left-0 bg-gradient-to-r from-emerald-400 to-emerald-400 transition-[width] duration-100"
                 style={{ width: `${count}%` }}
               />
             </div>

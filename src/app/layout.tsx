@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Space_Grotesk, JetBrains_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 
 const display = Space_Grotesk({
@@ -9,6 +9,13 @@ const display = Space_Grotesk({
 
 const monoHud = JetBrains_Mono({
   variable: "--font-mono-hud",
+  subsets: ["latin"],
+});
+
+const serifAccent = Instrument_Serif({
+  variable: "--font-serif-accent",
+  weight: "400",
+  style: ["normal", "italic"],
   subsets: ["latin"],
 });
 
@@ -37,7 +44,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${display.variable} ${monoHud.variable} antialiased bg-background text-foreground`}
+        className={`${display.variable} ${monoHud.variable} ${serifAccent.variable} antialiased bg-background text-foreground`}
       >
         {children}
       </body>

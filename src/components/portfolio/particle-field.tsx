@@ -106,8 +106,8 @@ export default function ParticleField() {
             const alpha = (1 - d / LINK_DIST) * 0.22;
             ctx.strokeStyle =
               a.hue === b.hue
-                ? `rgba(0, 240, 255, ${alpha})`
-                : `rgba(167, 139, 250, ${alpha})`;
+                ? `rgba(0, 255, 157, ${alpha})`
+                : `rgba(52, 211, 153, ${alpha})`;
             ctx.lineWidth = 0.6;
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
@@ -123,7 +123,7 @@ export default function ParticleField() {
           const d = Math.hypot(p.x - m.x, p.y - m.y);
           if (d < 180) {
             const alpha = (1 - d / 180) * 0.5;
-            ctx.strokeStyle = `rgba(0, 240, 255, ${alpha})`;
+            ctx.strokeStyle = `rgba(0, 255, 157, ${alpha})`;
             ctx.lineWidth = 0.8;
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
@@ -138,7 +138,7 @@ export default function ParticleField() {
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fillStyle =
-          p.hue === 0 ? "rgba(0, 240, 255, 0.85)" : "rgba(167, 139, 250, 0.85)";
+          p.hue === 0 ? "rgba(0, 255, 157, 0.85)" : "rgba(52, 211, 153, 0.85)";
         ctx.fill();
       }
 

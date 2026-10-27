@@ -1,7 +1,8 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect } from "react";
+import { useEffect, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, ExternalLink, Github, X } from "lucide-react";
 import { projects } from "@/config/portfolio";
@@ -48,7 +49,16 @@ export default function ProjectModal({
     };
   }, [project, onClose, onNavigate]);
 
-  return (
+  // client-only portal host — escapes main's stacking context so nothing paints over the dossier
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
+
+  if (!mounted) return null;
+
+  return createPortal(
     <AnimatePresence>
       {project && (
         <motion.div
@@ -74,11 +84,11 @@ export default function ProjectModal({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 16 }}
             transition={{ duration: 0.5, ease: EASE }}
-            className="border-beam relative z-10 max-h-[92vh] w-full max-w-6xl overflow-y-auto border border-cyan-400/20 bg-[#07070d] shadow-[0_0_80px_rgba(0,240,255,0.14)]"
+            className="border-beam relative z-10 max-h-[92vh] w-full max-w-6xl overflow-y-auto border border-emerald-400/20 bg-[#07070d] shadow-[0_0_80px_rgba(0,255,157,0.14)]"
           >
             {/* header strip */}
-            <div className="flex items-center justify-between border-b border-cyan-400/15 px-5 py-3 sm:px-7">
-              <div className="font-hud text-[9px] text-cyan-300/80">
+            <div className="flex items-center justify-between border-b border-emerald-400/15 px-5 py-3 sm:px-7">
+              <div className="font-hud text-[9px] text-emerald-300/80">
                 PROJECT FILE // {project.index}
                 <span className="holo-flicker ml-3 text-muted-foreground">
                   HOLO-PROJECTION · RENDERING
@@ -88,7 +98,7 @@ export default function ProjectModal({
                 autoFocus
                 onClick={onClose}
                 aria-label="Close project dossier"
-                className="flex h-9 w-9 items-center justify-center border border-white/10 text-muted-foreground transition-all hover:border-cyan-400/50 hover:text-cyan-300 hover:shadow-[0_0_18px_rgba(0,240,255,0.3)]"
+                className="flex h-9 w-9 items-center justify-center border border-white/10 text-muted-foreground transition-all hover:border-emerald-400/50 hover:text-emerald-300 hover:shadow-[0_0_18px_rgba(0,255,157,0.3)]"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -96,7 +106,7 @@ export default function ProjectModal({
 
             <div className="grid lg:grid-cols-[46fr_54fr]">
               {/* ── left: the 3D hologram ── */}
-              <div className="relative min-h-[320px] border-b border-cyan-400/10 lg:min-h-[540px] lg:border-b-0 lg:border-r">
+              <div className="relative min-h-[320px] border-b border-emerald-400/10 lg:min-h-[540px] lg:border-b-0 lg:border-r">
                 <div key={project.index} className="glitch-in absolute inset-0">
                   <HoloCanvas variant={project.index as never} />
                 </div>
@@ -106,22 +116,22 @@ export default function ProjectModal({
                   aria-hidden="true"
                   className="pointer-events-none absolute inset-x-0 top-0 z-[7] h-24 overflow-hidden"
                 >
-                  <div className="scan-sweep h-16 w-full bg-gradient-to-b from-transparent via-cyan-400/12 to-transparent" />
+                  <div className="scan-sweep h-16 w-full bg-gradient-to-b from-transparent via-emerald-400/12 to-transparent" />
                 </div>
 
                 {/* corner meta over hologram */}
-                <div className="pointer-events-none absolute left-4 top-4 z-10 font-hud text-[9px] text-cyan-300/60">
+                <div className="pointer-events-none absolute left-4 top-4 z-10 font-hud text-[9px] text-emerald-300/60">
                   MODEL · {project.index}
                   <br />
                   ROTATION · AUTO
                 </div>
-                <div className="pointer-events-none absolute bottom-4 right-4 z-10 hidden font-hud text-[9px] text-cyan-300/60 sm:block">
+                <div className="pointer-events-none absolute bottom-4 right-4 z-10 hidden font-hud text-[9px] text-emerald-300/60 sm:block">
                   DRAG CURSOR TO TILT
                 </div>
                 {/* pedestal glow */}
                 <div
                   aria-hidden="true"
-                  className="pointer-events-none absolute bottom-6 left-1/2 z-[6] h-10 w-56 -translate-x-1/2 rounded-full bg-cyan-400/14 blur-2xl"
+                  className="pointer-events-none absolute bottom-6 left-1/2 z-[6] h-10 w-56 -translate-x-1/2 rounded-full bg-emerald-400/14 blur-2xl"
                 />
               </div>
 
@@ -133,9 +143,9 @@ export default function ProjectModal({
                   transition={{ delay: 0.3, duration: 0.5, ease: EASE }}
                   className="mb-4 flex flex-wrap items-center gap-x-5 gap-y-2 font-hud text-[9px] text-muted-foreground"
                 >
-                  <span className="text-cyan-300">{project.category}</span>
+                  <span className="text-emerald-300">{project.category}</span>
                   <span>YEAR · {project.year}</span>
-                  <span className="holo-flicker text-cyan-300/70">
+                  <span className="holo-flicker text-emerald-300/70">
                     STATUS · DECLASSIFIED
                   </span>
                 </motion.div>
@@ -151,13 +161,13 @@ export default function ProjectModal({
 
                 {/* typewritten brief */}
                 <p className="mt-6 min-h-[7.5rem] text-sm leading-relaxed text-muted-foreground sm:text-base">
-                  <span className="mr-1 font-hud text-[10px] text-cyan-400">
+                  <span className="mr-1 font-hud text-[10px] text-emerald-400">
                     &gt;
                   </span>
                   {typed}
                   <span
                     aria-hidden="true"
-                    className={`caret-blink ml-0.5 inline-block h-4 w-[7px] translate-y-[3px] bg-cyan-300 ${
+                    className={`caret-blink ml-0.5 inline-block h-4 w-[7px] translate-y-[3px] bg-emerald-300 ${
                       done ? "opacity-60" : ""
                     }`}
                   />
@@ -186,7 +196,7 @@ export default function ProjectModal({
                           transition: { duration: 0.4, ease: EASE },
                         },
                       }}
-                      className="border border-cyan-400/25 bg-cyan-400/5 px-3 py-1.5 font-hud text-[9px] text-cyan-300"
+                      className="border border-emerald-400/25 bg-emerald-400/5 px-3 py-1.5 font-hud text-[9px] text-emerald-300"
                     >
                       {s}
                     </motion.span>
@@ -231,10 +241,10 @@ export default function ProjectModal({
             </div>
 
             {/* footer: mission navigation */}
-            <div className="flex items-center justify-between border-t border-cyan-400/15 px-5 py-3 sm:px-7">
+            <div className="flex items-center justify-between border-t border-emerald-400/15 px-5 py-3 sm:px-7">
               <button
                 onClick={() => onNavigate(-1)}
-                className="group inline-flex items-center gap-2 font-hud text-[10px] text-muted-foreground transition-colors hover:text-cyan-300"
+                className="group inline-flex items-center gap-2 font-hud text-[10px] text-muted-foreground transition-colors hover:text-emerald-300"
               >
                 <ChevronLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-1" />
                 PREV FILE
@@ -246,7 +256,7 @@ export default function ProjectModal({
                     key={p.index}
                     className={`h-1 rounded-full transition-all duration-400 ${
                       p.index === project.index
-                        ? "w-7 bg-cyan-300 shadow-[0_0_8px_rgba(0,240,255,0.8)]"
+                        ? "w-7 bg-emerald-300 shadow-[0_0_8px_rgba(0,255,157,0.8)]"
                         : "w-3 bg-white/15"
                     }`}
                   />
@@ -255,7 +265,7 @@ export default function ProjectModal({
 
               <button
                 onClick={() => onNavigate(1)}
-                className="group inline-flex items-center gap-2 font-hud text-[10px] text-muted-foreground transition-colors hover:text-cyan-300"
+                className="group inline-flex items-center gap-2 font-hud text-[10px] text-muted-foreground transition-colors hover:text-emerald-300"
               >
                 NEXT FILE
                 <ChevronRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
@@ -264,6 +274,7 @@ export default function ProjectModal({
           </motion.div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }

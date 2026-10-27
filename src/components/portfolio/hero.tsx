@@ -1,15 +1,9 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { identity } from "@/config/portfolio";
+import { identity, about } from "@/config/portfolio";
 import FluidButton from "./fluid-button";
-
-const HoloCanvas = dynamic(
-  () => import("./three/holograms").then((m) => m.HoloCanvas),
-  { ssr: false }
-);
 
 const letterContainer = {
   hidden: {},
@@ -56,46 +50,39 @@ export default function Hero() {
     target: ref,
     offset: ["start start", "end start"],
   });
-  // cinematic exit: content drifts up + fades as you scroll away
-  const yContent = useTransform(scrollYProgress, [0, 1], [0, -140]);
+  // cinematic exit: content sinks as the camera dives under
+  const yContent = useTransform(scrollYProgress, [0, 1], [0, 110]);
   const ySpace = useTransform(scrollYProgress, [0, 1], [0, 90]);
-  const opacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
+  const opacity = useTransform(scrollYProgress, [0, 0.72], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 0.94]);
 
   return (
     <section
       ref={ref}
       id="top"
-      className="relative flex min-h-svh flex-col justify-center overflow-hidden"
+      className="relative flex min-h-svh flex-col justify-end overflow-hidden"
     >
-      {/* ── 3D holographic void (WebGL) ── */}
-      <motion.div style={{ y: ySpace }} className="absolute inset-0 z-0">
-        <HoloCanvas variant="hero" offsetX={1.35} />
-      </motion.div>
-
-      {/* tech grid backdrop (above canvas, below content) */}
-      <div className="tech-grid pointer-events-none absolute inset-0 z-[1]" aria-hidden="true" />
-
-      {/* readability scrim — on narrow screens the hologram centers behind the text */}
+      {/* tint layers above the 3D world */}
+      <div className="tech-grid pointer-events-none absolute inset-0 z-[1] opacity-70" aria-hidden="true" />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_120%_72%_at_30%_46%,rgba(5,5,8,0.84),rgba(5,5,8,0.38)_54%,transparent_76%)] lg:hidden"
-      />
-
-      {/* aurora blobs */}
-      <div
-        aria-hidden="true"
-        className="animate-drift-a pointer-events-none absolute -top-32 left-[8%] z-0 h-96 w-96 rounded-full bg-cyan-500/12 blur-[130px]"
+        className="animate-drift-a pointer-events-none absolute -top-32 left-[8%] z-[1] h-96 w-96 rounded-full bg-emerald-500/10 blur-[130px]"
       />
       <div
         aria-hidden="true"
-        className="animate-drift-b pointer-events-none absolute bottom-0 right-[4%] z-0 h-[28rem] w-[28rem] rounded-full bg-violet-500/14 blur-[150px]"
+        className="animate-drift-b pointer-events-none absolute bottom-0 right-[4%] z-[1] h-[26rem] w-[26rem] rounded-full bg-white/[0.05] blur-[150px]"
+      />
+
+      {/* readability scrim on narrow screens */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_120%_72%_at_30%_62%,rgba(2,2,3,0.78),rgba(2,2,3,0.34)_54%,transparent_76%)] lg:hidden"
       />
 
       {/* HUD corner meta */}
       <div
         aria-hidden="true"
-        className="absolute bottom-10 left-6 z-10 font-hud text-[9px] text-cyan-300/50 sm:left-10"
+        className="absolute bottom-10 left-6 z-10 font-hud text-[9px] text-emerald-300/50 sm:left-10"
       >
         LAT {identity.coords.lat}
         <br />
@@ -103,29 +90,29 @@ export default function Hero() {
       </div>
       <div
         aria-hidden="true"
-        className="absolute right-6 top-24 z-10 text-right font-hud text-[9px] text-cyan-300/50 sm:right-10"
+        className="absolute right-6 top-24 z-10 text-right font-hud text-[9px] text-emerald-300/50 sm:right-10"
       >
         FILE // PORTFOLIO
         <br />
-        STATUS · <span className="text-cyan-300">LIVE</span>
+        STATUS · <span className="text-emerald-300">LIVE</span>
       </div>
 
       <motion.div
         style={{ y: yContent, opacity, scale }}
-        className="relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-8"
+        className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-24 sm:px-8 sm:pb-28"
       >
         {/* status chip */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 2.2, duration: 0.6 }}
-          className="mb-7 inline-flex items-center gap-2.5 border border-cyan-400/25 bg-[#050508]/60 px-4 py-1.5 backdrop-blur"
+          className="mb-7 inline-flex items-center gap-2.5 border border-emerald-400/25 bg-[#020203]/60 px-4 py-1.5 backdrop-blur"
         >
           <span className="relative flex h-2 w-2">
-            <span className="ping-ring absolute inline-flex h-full w-full rounded-full bg-cyan-400" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-cyan-400" />
+            <span className="ping-ring absolute inline-flex h-full w-full rounded-full bg-emerald-400" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
           </span>
-          <span className="font-hud text-[10px] text-cyan-300">
+          <span className="font-hud text-[10px] text-emerald-300">
             {identity.availability}
           </span>
           <span className="hidden font-hud text-[10px] text-muted-foreground sm:inline">
@@ -133,7 +120,7 @@ export default function Hero() {
           </span>
         </motion.div>
 
-        {/* the name + mirror reflection */}
+        {/* the name — "GOVARDHAN / & REDDY" like the reference title lockup */}
         <div className="relative">
           <h1 className="font-display font-bold leading-[0.92] tracking-tight">
             <span className="sr-only">
@@ -141,51 +128,69 @@ export default function Hero() {
             </span>
             <Letters
               word={identity.firstName}
-              className="text-[clamp(3.4rem,12vw,9.5rem)] text-foreground"
+              className="text-[clamp(2.9rem,9.5vw,8.2rem)] text-foreground"
             />
             <br />
+            <span
+              aria-hidden="true"
+              className="mr-2 align-baseline font-serif-accent text-[clamp(1.7rem,5.4vw,4.6rem)] font-normal italic text-emerald-300 [text-shadow:0_0_24px_rgba(0,255,157,0.4)]"
+            >
+              &
+            </span>
             <Letters
               word={identity.lastName}
-              className="gradient-text animate-gradient-flow glow-text-violet text-[clamp(3.4rem,12vw,9.5rem)]"
+              className="text-[clamp(2.9rem,9.5vw,8.2rem)] text-foreground"
             />
           </h1>
 
-          {/* mirror */}
+          {/* mirror — softened so it breathes behind the role block */}
           <motion.div
             aria-hidden="true"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 3.8, duration: 1.2 }}
-            className="mirror-text absolute inset-x-0 top-full hidden font-display font-bold leading-[0.92] tracking-tight lg:block"
+            className="mirror-text mirror-soft absolute inset-x-0 top-full hidden font-display font-bold leading-[0.92] tracking-tight lg:block"
           >
-            <div className="text-[clamp(3.4rem,12vw,9.5rem)] text-foreground">
+            <div className="text-[clamp(2.9rem,9.5vw,8.2rem)] text-foreground">
               {identity.firstName}
             </div>
-            <div className="text-[clamp(3.4rem,12vw,9.5rem)] text-foreground">
+            <div className="flex items-baseline text-[clamp(2.9rem,9.5vw,8.2rem)] text-foreground">
+              <span className="mr-2 font-serif-accent text-[clamp(1.7rem,5.4vw,4.6rem)] font-normal italic">
+                &
+              </span>
               {identity.lastName}
             </div>
           </motion.div>
         </div>
 
-        {/* role line */}
+        {/* role + serif quote line */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 3.1, duration: 0.7 }}
-          className="mt-8 flex flex-wrap items-center gap-4"
+          className="mt-9 flex flex-wrap items-center gap-x-5 gap-y-2"
         >
-          <span aria-hidden="true" className="h-px w-14 bg-gradient-to-r from-cyan-400 to-transparent" />
-          <h2 className="font-hud text-xs text-cyan-300 sm:text-sm">
+          <span aria-hidden="true" className="h-px w-14 bg-gradient-to-r from-emerald-400 to-transparent" />
+          <h2 className="font-hud text-xs text-emerald-300 sm:text-sm">
             {identity.role}
           </h2>
         </motion.div>
+
+        <motion.p
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 3.45, duration: 0.8 }}
+          className="mt-4 font-serif-accent text-xl italic text-foreground/75 sm:text-2xl"
+        >
+          &ldquo;{about.quote}&rdquo;
+        </motion.p>
 
         {/* tagline */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 3.3, duration: 0.7 }}
-          className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg"
+          transition={{ delay: 3.6, duration: 0.7 }}
+          className="mt-5 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base"
         >
           {identity.tagline}
         </motion.p>
@@ -194,49 +199,16 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 3.5, duration: 0.7 }}
-          className="mt-10 flex flex-wrap items-center gap-4"
+          transition={{ delay: 3.8, duration: 0.7 }}
+          className="mt-9 flex flex-wrap items-center gap-4"
         >
-          <FluidButton href="#works" tone="cyan" className="!bg-[#050508]/60 backdrop-blur">
+          <FluidButton href="#works" tone="cyan" className="!bg-[#020203]/60 backdrop-blur">
             VIEW MY WORK →
           </FluidButton>
-          <FluidButton href="#transmit" tone="ghost" className="!bg-[#050508]/40 backdrop-blur">
+          <FluidButton href="#transmit" tone="ghost" className="!bg-[#020203]/40 backdrop-blur">
             GET IN TOUCH
           </FluidButton>
         </motion.div>
-      </motion.div>
-
-      {/* rotating scroll badge */}
-      <motion.a
-        href="#about"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 3.9, duration: 0.8 }}
-        className="absolute bottom-10 right-8 z-10 hidden h-28 w-28 items-center justify-center sm:flex"
-        aria-label="Scroll to about section"
-      >
-        <svg viewBox="0 0 100 100" className="animate-spin-slow absolute inset-0 h-full w-full">
-          <defs>
-            <path id="circlePath" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0" />
-          </defs>
-          <text className="fill-cyan-300/80 font-hud" fontSize="8.5" letterSpacing="2.5">
-            <textPath href="#circlePath">
-              SCROLL · EXPLORE · CREATE · REPEAT ·
-            </textPath>
-          </text>
-        </svg>
-        <span aria-hidden="true" className="text-cyan-300">↓</span>
-      </motion.a>
-
-      {/* scroll drip */}
-      <motion.div
-        aria-hidden="true"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 3.9 }}
-        className="absolute bottom-0 left-1/2 z-10 hidden -translate-x-1/2 sm:block"
-      >
-        <div className="animate-scroll-drip h-16 w-px bg-gradient-to-b from-cyan-400 to-transparent" />
       </motion.div>
     </section>
   );

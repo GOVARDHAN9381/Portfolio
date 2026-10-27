@@ -55,8 +55,8 @@ export default function FluidButton({
 
   const toneClass =
     tone === "cyan"
-      ? "border-cyan-400/50 bg-cyan-400/10 text-cyan-200 hover:text-[#050508] hover:shadow-[0_0_40px_rgba(0,240,255,0.35)]"
-      : "border-white/12 text-muted-foreground hover:text-cyan-200 hover:border-cyan-400/30";
+      ? "border-emerald-400/50 bg-emerald-400/10 text-emerald-200 hover:text-[#050508] hover:shadow-[0_0_40px_rgba(0,255,157,0.35)]"
+      : "border-white/12 text-muted-foreground hover:text-emerald-200 hover:border-emerald-400/30";
 
   return (
     <motion.a
@@ -79,7 +79,7 @@ export default function FluidButton({
           top: `${fill.y}%`,
           transform: `translate(-50%, -50%) scale(${fill.on ? 1 : 0})`,
           background:
-            tone === "cyan" ? "rgba(0, 240, 255, 0.92)" : "rgba(232, 234, 242, 0.14)",
+            tone === "cyan" ? "rgba(0, 255, 157, 0.92)" : "rgba(232, 234, 242, 0.14)",
         }}
       />
       <span className="relative z-10 inline-flex items-center gap-2">{children}</span>

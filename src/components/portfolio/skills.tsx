@@ -14,7 +14,7 @@ function SkillBar({ name, level, delay }: { name: string; level: number; delay: 
       className="group"
     >
       <div className="mb-2 flex items-center justify-between">
-        <span className="text-sm font-medium text-foreground/90 transition-colors group-hover:text-cyan-200">
+        <span className="text-sm font-medium text-foreground/90 transition-colors group-hover:text-emerald-200">
           {name}
         </span>
         <span className="font-hud text-[9px] text-muted-foreground">
@@ -27,7 +27,7 @@ function SkillBar({ name, level, delay }: { name: string; level: number; delay: 
           whileInView={{ scaleX: level / 100 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 1.1, delay: delay + 0.15, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute inset-y-0 left-0 w-full origin-left bg-gradient-to-r from-cyan-400 via-sky-300 to-violet-400 shadow-[0_0_12px_rgba(0,240,255,0.5)]"
+          className="absolute inset-y-0 left-0 w-full origin-left bg-gradient-to-r from-emerald-400 via-emerald-200 to-emerald-400 shadow-[0_0_12px_rgba(0,255,157,0.5)]"
         />
       </div>
     </motion.div>
@@ -85,10 +85,10 @@ export default function Skills() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.65, delay: gi * 0.12, ease: [0.22, 1, 0.36, 1] }}
-              className="hud-frame border border-white/8 bg-card/60 p-6 backdrop-blur transition-all duration-500 hover:border-cyan-400/40 hover:shadow-[0_0_50px_rgba(0,240,255,0.12)]"
+              className="hud-frame border border-white/8 bg-card/60 p-6 backdrop-blur transition-all duration-500 hover:border-emerald-400/40 hover:shadow-[0_0_50px_rgba(0,255,157,0.12)]"
             >
               <div className="mb-7 flex items-center justify-between">
-                <h3 className="font-hud text-[11px] text-cyan-300">{g.group}</h3>
+                <h3 className="font-hud text-[11px] text-emerald-300">{g.group}</h3>
                 <span className="font-hud text-[9px] text-muted-foreground">
                   MOD-{String(gi + 1).padStart(2, "0")}
                 </span>

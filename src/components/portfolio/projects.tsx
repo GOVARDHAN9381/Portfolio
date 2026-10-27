@@ -9,25 +9,25 @@ import ProjectModal from "./project-modal";
 
 const ACCENT = {
   cyan: {
-    text: "text-cyan-300",
-    border: "hover:border-cyan-400/60",
-    glow: "hover:shadow-[0_0_60px_rgba(0,240,255,0.18)]",
-    bg: "from-cyan-500/25 via-cyan-400/5 to-transparent",
-    chip: "border-cyan-400/30 text-cyan-300",
+    text: "text-emerald-300",
+    border: "hover:border-emerald-400/60",
+    glow: "hover:shadow-[0_0_60px_rgba(0,255,157,0.18)]",
+    bg: "from-emerald-500/25 via-emerald-400/5 to-transparent",
+    chip: "border-emerald-400/30 text-emerald-300",
   },
   violet: {
-    text: "text-violet-300",
-    border: "hover:border-violet-400/60",
-    glow: "hover:shadow-[0_0_60px_rgba(167,139,250,0.2)]",
-    bg: "from-violet-500/25 via-violet-400/5 to-transparent",
-    chip: "border-violet-400/30 text-violet-300",
+    text: "text-emerald-300",
+    border: "hover:border-emerald-400/60",
+    glow: "hover:shadow-[0_0_60px_rgba(52,211,153,0.2)]",
+    bg: "from-emerald-500/25 via-emerald-400/5 to-transparent",
+    chip: "border-emerald-400/30 text-emerald-300",
   },
   pink: {
-    text: "text-fuchsia-300",
-    border: "hover:border-fuchsia-400/60",
-    glow: "hover:shadow-[0_0_60px_rgba(240,171,252,0.18)]",
-    bg: "from-fuchsia-500/25 via-fuchsia-400/5 to-transparent",
-    chip: "border-fuchsia-400/30 text-fuchsia-300",
+    text: "text-emerald-300",
+    border: "hover:border-emerald-400/60",
+    glow: "hover:shadow-[0_0_60px_rgba(125,255,192,0.18)]",
+    bg: "from-emerald-500/25 via-emerald-400/5 to-transparent",
+    chip: "border-emerald-400/30 text-emerald-300",
   },
 } as const;
 
@@ -58,7 +58,7 @@ function ReelCard({
         }
       }}
       data-cursor="hover"
-      className={`group relative flex w-[84vw] max-w-[480px] shrink-0 cursor-pointer flex-col overflow-hidden border border-white/8 bg-card transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 sm:w-[480px] ${a.border} ${a.glow}`}
+      className={`group relative flex w-[84vw] max-w-[480px] shrink-0 cursor-pointer flex-col overflow-hidden border border-white/8 bg-card transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 sm:w-[480px] ${a.border} ${a.glow}`}
     >
       {/* thumbnail — pure CSS art (height adapts to viewport) */}
       <div className="scanlines sheen relative h-[clamp(150px,26vh,224px)] overflow-hidden">
@@ -69,7 +69,7 @@ function ReelCard({
         />
         <span
           aria-hidden="true"
-          className="holo-flicker absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-7xl opacity-0 drop-shadow-[0_0_25px_rgba(0,240,255,0.45)] transition-opacity duration-500 group-hover:opacity-100"
+          className="holo-flicker absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-7xl opacity-0 drop-shadow-[0_0_25px_rgba(0,255,157,0.45)] transition-opacity duration-500 group-hover:opacity-100"
         >
           {project.icon}
         </span>
@@ -85,13 +85,13 @@ function ReelCard({
         <div className="absolute right-4 top-4 font-hud text-[9px] text-muted-foreground">
           {project.year}
         </div>
-        <div className="absolute bottom-4 right-4 font-hud text-[9px] text-cyan-300/80 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+        <div className="absolute bottom-4 right-4 font-hud text-[9px] text-emerald-300/80 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
           [ 3D HOLOGRAM ]
         </div>
         {/* scanline */}
         <div
           aria-hidden="true"
-          className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-cyan-400/60 to-transparent"
+          className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-emerald-400/60 to-transparent"
         />
       </div>
 
@@ -105,7 +105,7 @@ function ReelCard({
             OPEN ⟶
           </span>
         </div>
-        <h3 className="font-display text-2xl font-bold tracking-tight text-foreground transition-colors group-hover:text-cyan-200">
+        <h3 className="font-display text-2xl font-bold tracking-tight text-foreground transition-colors group-hover:text-emerald-200">
           {project.title}
         </h3>
         <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
@@ -132,7 +132,7 @@ function ReelCard({
               e.stopPropagation();
               if (project.liveUrl.startsWith("#")) e.preventDefault();
             }}
-            className="inline-flex items-center gap-1.5 font-hud text-[10px] text-foreground/80 transition-colors hover:text-cyan-300"
+            className="inline-flex items-center gap-1.5 font-hud text-[10px] text-foreground/80 transition-colors hover:text-emerald-300"
           >
             LIVE <ExternalLink className="h-3 w-3" />
           </a>
@@ -144,7 +144,7 @@ function ReelCard({
               e.stopPropagation();
               if (project.repoUrl.startsWith("#")) e.preventDefault();
             }}
-            className="inline-flex items-center gap-1.5 font-hud text-[10px] text-foreground/80 transition-colors hover:text-cyan-300"
+            className="inline-flex items-center gap-1.5 font-hud text-[10px] text-foreground/80 transition-colors hover:text-emerald-300"
           >
             CODE <Github className="h-3.5 w-3.5" />
           </a>
@@ -225,7 +225,7 @@ export default function Projects() {
                 AI mentors, security scanners, vision systems — every build below
                 is live in production. Press one to project its hologram.
               </p>
-              <div className="mt-8 font-hud text-[10px] text-cyan-300">
+              <div className="mt-8 font-hud text-[10px] text-emerald-300">
                 → REEL MOVES WITH YOUR SCROLL · 06 LIVE BUILDS
               </div>
             </div>
@@ -251,7 +251,7 @@ export default function Projects() {
                 href={socials.find((s) => s.label === "GITHUB")?.href ?? "#"}
                 target="_blank"
                 rel="noreferrer"
-                className="sheen border border-cyan-400/40 px-6 py-3 font-hud text-[10px] text-cyan-300 transition-all hover:bg-cyan-400/10 hover:shadow-[0_0_30px_rgba(0,240,255,0.3)]"
+                className="sheen border border-emerald-400/40 px-6 py-3 font-hud text-[10px] text-emerald-300 transition-all hover:bg-emerald-400/10 hover:shadow-[0_0_30px_rgba(0,255,157,0.3)]"
               >
                 MORE ON GITHUB ↗
               </a>
@@ -259,15 +259,15 @@ export default function Projects() {
           </motion.div>
 
           {/* reel progress — floating HUD chip */}
-          <div className="absolute bottom-8 left-1/2 z-20 -translate-x-1/2 border border-cyan-400/20 bg-[#050508]/85 px-5 py-2.5 backdrop-blur-md">
+          <div className="absolute bottom-8 left-1/2 z-20 -translate-x-1/2 border border-emerald-400/20 bg-[#050508]/85 px-5 py-2.5 backdrop-blur-md">
             <div className="mb-2 flex w-56 justify-between font-hud text-[9px] text-muted-foreground">
-              <span className="text-cyan-300">REEL</span>
+              <span className="text-emerald-300">REEL</span>
               <span>06 MISSIONS</span>
             </div>
             <div className="h-px w-full bg-white/10">
               <motion.div
                 style={{ width: reelWidth }}
-                className="h-full bg-gradient-to-r from-cyan-400 to-violet-400 shadow-[0_0_10px_rgba(0,240,255,0.6)]"
+                className="h-full bg-gradient-to-r from-emerald-400 to-emerald-400 shadow-[0_0_10px_rgba(0,255,157,0.6)]"
               />
             </div>
           </div>

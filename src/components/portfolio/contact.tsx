@@ -12,7 +12,7 @@ export default function Contact() {
       {/* aurora backdrop */}
       <div
         aria-hidden="true"
-        className="animate-drift-a pointer-events-none absolute left-1/2 top-1/3 h-[26rem] w-[36rem] -translate-x-1/2 rounded-full bg-violet-500/10 blur-[150px]"
+        className="animate-drift-a pointer-events-none absolute left-1/2 top-1/3 h-[26rem] w-[36rem] -translate-x-1/2 rounded-full bg-emerald-500/10 blur-[150px]"
       />
 
       <div className="mx-auto w-full max-w-7xl">
@@ -41,12 +41,12 @@ export default function Contact() {
             transition={{ duration: 0.7, delay: 0.25 }}
             className="mt-12 flex flex-wrap items-center gap-5"
           >
-            <FluidButton href={`mailto:${identity.email}`} tone="cyan" className="!bg-cyan-400/10">
+            <FluidButton href={`mailto:${identity.email}`} tone="cyan" className="!bg-emerald-400/10">
               <Mail className="h-4 w-4" />
               INITIATE CONTACT
             </FluidButton>
             <span className="font-hud text-[10px] text-muted-foreground">
-              RESPONSE TIME · <span className="text-cyan-300">&lt; 24 HRS</span>
+              RESPONSE TIME · <span className="text-emerald-300">&lt; 24 HRS</span>
             </span>
           </motion.div>
 
@@ -65,9 +65,9 @@ export default function Contact() {
                   href={s.href}
                   target="_blank"
                   rel="noreferrer"
-                  className="group inline-flex items-center gap-2 font-hud text-[11px] text-muted-foreground transition-colors hover:text-cyan-300"
+                  className="group inline-flex items-center gap-2 font-hud text-[11px] text-muted-foreground transition-colors hover:text-emerald-300"
                 >
-                  <span className="h-1 w-1 rounded-full bg-cyan-400/60 transition-all group-hover:w-4 group-hover:shadow-[0_0_8px_rgba(0,240,255,0.8)]" />
+                  <span className="h-1 w-1 rounded-full bg-emerald-400/60 transition-all group-hover:w-4 group-hover:shadow-[0_0_8px_rgba(0,255,157,0.8)]" />
                   {s.label} ↗
                 </a>
               </li>
@@ -99,12 +99,12 @@ export default function Contact() {
                 href: undefined,
               },
             ].map((row) => (
-              <div key={row.k} className="group bg-[#07070c] p-5 transition-colors hover:bg-cyan-400/5">
+              <div key={row.k} className="group bg-[#07070c] p-5 transition-colors hover:bg-emerald-400/5">
                 <div className="font-hud text-[9px] text-muted-foreground">{row.k}</div>
                 {row.href ? (
                   <a
                     href={row.href}
-                    className="mt-2 inline-block break-all text-sm text-foreground/90 transition-colors hover:text-cyan-300"
+                    className="mt-2 inline-block break-all text-sm text-foreground/90 transition-colors hover:text-emerald-300"
                   >
                     {row.v}
                   </a>
@@ -125,9 +125,9 @@ export default function Contact() {
           </span>
           <span className="flex items-center gap-2">
             DESIGNED & BUILT WITH
-            <span className="text-cyan-300">TOO MUCH COFFEE</span>
+            <span className="text-emerald-300">TOO MUCH COFFEE</span>
           </span>
-          <a href="#top" className="transition-colors hover:text-cyan-300">
+          <a href="#top" className="transition-colors hover:text-emerald-300">
             BACK TO TOP ↑
           </a>
         </div>

@@ -88,3 +88,33 @@ Work Log:
 Stage Summary:
 - All v2 features verified live in real browser, desktop + mobile: 3D holograms, pitch-black void, mirror reflection, fluid buttons, typewriter dossier, staggered fades, real identity + photos
 - Deliverable stable and lint-clean; 12 verification screenshots archived in /home/z/my-project/scripts/verify/
+
+---
+Task ID: 5
+Agent: Main agent (Z.ai)
+Task: Peachworlds-grade rebuild — scroll-driven 3D world, cinematic dark realism, mint-green identity
+
+Work Log:
+- Studied live reference drop.peachworlds.com via agent-browser (dark glossy sphere between monolith cliffs, "SCROLL TO GO UNDER" camera mechanic, % progress, elegant white type + italic serif); user's GLINT screenshot supplied the green accent
+- Installed @react-three/postprocessing + postprocessing (bloom pipeline)
+- Global recolor sweep via scripts/recolor.sh: cyan/violet/fuchsia -> acid mint (#00ff9d primary, emerald family); fixed leftover fuchsia/sky/cyan-100 stragglers; gradient-text -> white-to-mint; body bg pure black
+- Added Instrument Serif (italic) as --font-serif-accent + .font-serif-accent utility
+- Built three/scroll-world.tsx — ONE persistent fixed WebGL world behind the whole page:
+  * HeroSphere: custom GLSL fresnel shader (near-black body, white top rim on surface, green rim below), vertex-noise breathing amplified by scroll velocity
+  * Procedural monolith cliffs (displaced icosahedra, seeded mulberry32, flat-shaded dark standard material) framing sphere + shards along descent + deep core
+  * Portal gate (green torus pair + pulsing point light) at the crust boundary; DeepCore green star at contact depth
+  * Camera Rig: CatmullRom path with 5 waypoints matched to real section offsets (piecewise progress measured from DOM), pointer parallax, velocity roll, damped smoothing
+  * Sparkles dust x2 layers, fog, bloom (mipmapBlur) + vignette post FX, DPR capped 1.5, lite mode < 640px
+  * ScrollHud: "SCROLL TO GO UNDER" -> "DESCENDING —" with live % + vertical progress bar (rAF, zero re-renders)
+- Rewrote hero: content pinned bottom (reference lockup) — GOVARDHAN / "& REDDY" with italic serif green ampersand, serif quote line, softened mirror (.mirror-soft 0.12), removed old hero HoloCanvas + rotating badge + scroll-drip, kept letters reveal + fluid CTAs + mobile scrim
+- Removed 2D ParticleField from page (3D dust replaces it); mounted ScrollWorld + ScrollHud
+- Fixed stacking bug: project dossier modal now portals to document.body (useSyncExternalStore client guard, lint-safe) so nav/section text can never paint over it; verified via elementFromPoint
+- Lint fixes: camera mutation via state.camera alias (react-hooks/immutability); removed unused useThree import
+- Verified desktop 1440x900: hero composition, about descent (green underbelly sphere + streaking gate light, 25%), works reel under crust among glowing monoliths (52%), skills among peaks (75%), contact facing blazing DeepCore (100%), green wireframe modal + typewriter + chips
+- Verified mobile 390x844: hero scrim + sphere glow, works card, stacked modal with typed brief; ESC/backdrop close retained
+- bun run lint -> clean; console clean (benign THREE.Clock + shader-compile warnings only)
+
+Stage Summary:
+- Deliverable: continuous 3D-world portfolio — scroll IS the camera; surface -> portal -> void core narrative
+- Reference checklist: pitch-black void ✓ dark glossy sphere ✓ monolith cliffs ✓ scroll-to-descend ✓ % indicator ✓ white sans + italic serif ✓ green accent (GLINT) ✓ advanced 3D (GLSL fresnel, noise displacement, bloom, camera choreography) ✓
+- All prior features intact: preloader, typewriter dossiers, holograms, fluid buttons, mirror, real content + photos

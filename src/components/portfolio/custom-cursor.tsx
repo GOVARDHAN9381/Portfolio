@@ -57,7 +57,7 @@ export default function CustomCursor() {
       {/* trailing ring */}
       <motion.div
         aria-hidden="true"
-        className="pointer-events-none fixed left-0 top-0 z-[100] rounded-full border border-cyan-300/60"
+        className="pointer-events-none fixed left-0 top-0 z-[100] rounded-full border border-emerald-300/60"
         style={{ x: ringX, y: ringY, translateX: "-50%", translateY: "-50%" }}
         animate={{
           width: hovering ? 52 : 34,
@@ -65,21 +65,21 @@ export default function CustomCursor() {
           opacity: hovering ? 1 : 0.6,
           scale: pressed ? 0.8 : 1,
           boxShadow: hovering
-            ? "0 0 18px rgba(0,240,255,0.45), inset 0 0 12px rgba(0,240,255,0.15)"
-            : "0 0 10px rgba(0,240,255,0.2)",
+            ? "0 0 18px rgba(0,255,157,0.45), inset 0 0 12px rgba(0,255,157,0.15)"
+            : "0 0 10px rgba(0,255,157,0.2)",
         }}
         transition={{ type: "spring", stiffness: 300, damping: 22 }}
       />
       {/* core dot */}
       <motion.div
         aria-hidden="true"
-        className="pointer-events-none fixed left-0 top-0 z-[100] h-1.5 w-1.5 rounded-full bg-cyan-300"
+        className="pointer-events-none fixed left-0 top-0 z-[100] h-1.5 w-1.5 rounded-full bg-emerald-300"
         style={{
           x,
           y,
           translateX: "-50%",
           translateY: "-50%",
-          boxShadow: "0 0 12px rgba(0,240,255,0.9), 0 0 30px rgba(0,240,255,0.4)",
+          boxShadow: "0 0 12px rgba(0,255,157,0.9), 0 0 30px rgba(0,255,157,0.4)",
         }}
         animate={{ scale: pressed ? 2 : 1 }}
       />

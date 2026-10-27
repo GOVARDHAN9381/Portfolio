@@ -149,7 +149,7 @@ function ScanBeam() {
   return (
     <mesh ref={ref} rotation={[Math.PI / 2, 0, 0]}>
       <torusGeometry args={[0.52, 0.006, 8, 64]} />
-      <meshBasicMaterial color="#00f0ff" transparent opacity={0.7} depthWrite={false} />
+      <meshBasicMaterial color="#00ff9d" transparent opacity={0.7} depthWrite={false} />
     </mesh>
   );
 }
@@ -165,79 +165,79 @@ function AvatarModel() {
         {/* power base */}
         <mesh position={[0, 0.01, 0]} rotation={[-Math.PI / 2, 0, 0]}>
           <ringGeometry args={[0.34, 0.37, 48]} />
-          <Holo color="#00f0ff" opacity={0.5} />
+          <Holo color="#00ff9d" opacity={0.5} />
         </mesh>
         <mesh position={[0, 0.01, 0]} rotation={[-Math.PI / 2, 0, 0]}>
           <ringGeometry args={[0.5, 0.505, 48]} />
-          <Holo color="#a78bfa" opacity={0.35} />
+          <Holo color="#34d399" opacity={0.35} />
         </mesh>
 
         {/* legs */}
         <mesh position={[-0.09, 0.43, 0]}>
           <cylinderGeometry args={[0.06, 0.05, 0.86, 10]} />
-          <Holo color="#4df0ff" opacity={0.42} />
+          <Holo color="#5cffb8" opacity={0.42} />
         </mesh>
         <mesh position={[0.09, 0.43, 0]}>
           <cylinderGeometry args={[0.06, 0.05, 0.86, 10]} />
-          <Holo color="#4df0ff" opacity={0.42} />
+          <Holo color="#5cffb8" opacity={0.42} />
         </mesh>
         {/* feet */}
         <mesh position={[-0.09, 0.03, 0.05]}>
           <boxGeometry args={[0.1, 0.05, 0.24]} />
-          <Holo color="#4df0ff" opacity={0.5} />
+          <Holo color="#5cffb8" opacity={0.5} />
         </mesh>
         <mesh position={[0.09, 0.03, 0.05]}>
           <boxGeometry args={[0.1, 0.05, 0.24]} />
-          <Holo color="#4df0ff" opacity={0.5} />
+          <Holo color="#5cffb8" opacity={0.5} />
         </mesh>
 
         {/* hips + torso */}
         <mesh position={[0, 0.88, 0]} scale={[1, 0.8, 0.8]}>
           <sphereGeometry args={[0.13, 14, 14]} />
-          <Holo color="#4df0ff" opacity={0.45} />
+          <Holo color="#5cffb8" opacity={0.45} />
         </mesh>
         <mesh position={[0, 1.15, 0]}>
           <cylinderGeometry args={[0.17, 0.13, 0.56, 14]} />
-          <Holo color="#4df0ff" opacity={0.48} />
+          <Holo color="#5cffb8" opacity={0.48} />
         </mesh>
         {/* core light in the chest */}
         <mesh position={[0, 1.18, 0]} scale={[0.6, 0.9, 0.6]}>
           <icosahedronGeometry args={[0.09, 0]} />
-          <meshBasicMaterial color="#00f0ff" transparent opacity={0.5} depthWrite={false} />
+          <meshBasicMaterial color="#00ff9d" transparent opacity={0.5} depthWrite={false} />
         </mesh>
 
         {/* arms — slight A-pose */}
         <mesh position={[-0.25, 1.11, 0]} rotation={[0, 0, 0.16]}>
           <cylinderGeometry args={[0.045, 0.038, 0.62, 10]} />
-          <Holo color="#4df0ff" opacity={0.42} />
+          <Holo color="#5cffb8" opacity={0.42} />
         </mesh>
         <mesh position={[0.25, 1.11, 0]} rotation={[0, 0, -0.16]}>
           <cylinderGeometry args={[0.045, 0.038, 0.62, 10]} />
-          <Holo color="#4df0ff" opacity={0.42} />
+          <Holo color="#5cffb8" opacity={0.42} />
         </mesh>
         {/* hands */}
         <mesh position={[-0.295, 0.76, 0]}>
           <sphereGeometry args={[0.05, 10, 10]} />
-          <Holo color="#8ef5ff" opacity={0.55} />
+          <Holo color="#b0ffd9" opacity={0.55} />
         </mesh>
         <mesh position={[0.295, 0.76, 0]}>
           <sphereGeometry args={[0.05, 10, 10]} />
-          <Holo color="#8ef5ff" opacity={0.55} />
+          <Holo color="#b0ffd9" opacity={0.55} />
         </mesh>
 
         {/* neck + head */}
         <mesh position={[0, 1.47, 0]}>
           <cylinderGeometry args={[0.045, 0.05, 0.1, 10]} />
-          <Holo color="#4df0ff" opacity={0.45} />
+          <Holo color="#5cffb8" opacity={0.45} />
         </mesh>
         <mesh position={[0, 1.63, 0]}>
           <sphereGeometry args={[0.115, 16, 16]} />
-          <Holo color="#8ef5ff" opacity={0.55} />
+          <Holo color="#b0ffd9" opacity={0.55} />
         </mesh>
         {/* visor band */}
         <mesh position={[0, 1.65, 0]} rotation={[Math.PI / 2, 0, 0]}>
           <torusGeometry args={[0.085, 0.005, 6, 40]} />
-          <Holo color="#f0abfc" opacity={0.6} />
+          <Holo color="#7dffc0" opacity={0.6} />
         </mesh>
 
         {/* scanning beam */}
@@ -255,21 +255,21 @@ function Model({ variant }: { variant: HoloVariant }) {
         <group>
           <mesh>
             <icosahedronGeometry args={[1.22, 1]} />
-            <Holo color="#4df0ff" opacity={0.5} />
+            <Holo color="#5cffb8" opacity={0.5} />
           </mesh>
           <mesh scale={0.55}>
             <icosahedronGeometry args={[1.22, 0]} />
-            <Holo color="#00f0ff" opacity={0.3} />
+            <Holo color="#00ff9d" opacity={0.3} />
           </mesh>
           <mesh rotation={[Math.PI / 2.4, 0.2, 0]}>
             <torusGeometry args={[1.95, 0.012, 8, 110]} />
-            <Holo color="#a78bfa" opacity={0.55} />
+            <Holo color="#34d399" opacity={0.55} />
           </mesh>
           <mesh rotation={[Math.PI / 1.6, -0.5, 0]}>
             <torusGeometry args={[2.35, 0.008, 8, 110]} />
-            <Holo color="#4df0ff" opacity={0.38} />
+            <Holo color="#5cffb8" opacity={0.38} />
           </mesh>
-          <OrbitRing radius={1.7} speed={0.9} tilt={Math.PI / 2.2} color="#f0abfc" />
+          <OrbitRing radius={1.7} speed={0.9} tilt={Math.PI / 2.2} color="#7dffc0" />
         </group>
       );
     case "001": // NEBULA DASH — data sphere with scan rings
@@ -277,15 +277,15 @@ function Model({ variant }: { variant: HoloVariant }) {
         <group>
           <mesh>
             <sphereGeometry args={[1.05, 16, 16]} />
-            <Holo color="#4df0ff" opacity={0.38} />
+            <Holo color="#5cffb8" opacity={0.38} />
           </mesh>
           <mesh rotation={[Math.PI / 2, 0, 0]}>
             <torusGeometry args={[1.45, 0.014, 8, 90]} />
-            <Holo color="#00f0ff" opacity={0.6} />
+            <Holo color="#00ff9d" opacity={0.6} />
           </mesh>
           <mesh rotation={[Math.PI / 2.7, 0.5, 0]}>
             <torusGeometry args={[1.8, 0.01, 8, 90]} />
-            <Holo color="#a78bfa" opacity={0.45} />
+            <Holo color="#34d399" opacity={0.45} />
           </mesh>
         </group>
       );
@@ -294,11 +294,11 @@ function Model({ variant }: { variant: HoloVariant }) {
         <group>
           <mesh>
             <torusKnotGeometry args={[0.95, 0.3, 150, 20, 2, 3]} />
-            <Holo color="#a78bfa" opacity={0.5} />
+            <Holo color="#34d399" opacity={0.5} />
           </mesh>
           <mesh rotation={[Math.PI / 2, 0, 0]}>
             <torusGeometry args={[1.75, 0.01, 8, 90]} />
-            <Holo color="#4df0ff" opacity={0.4} />
+            <Holo color="#5cffb8" opacity={0.4} />
           </mesh>
         </group>
       );
@@ -307,19 +307,19 @@ function Model({ variant }: { variant: HoloVariant }) {
         <group>
           <mesh>
             <cylinderGeometry args={[0.55, 0.55, 1.1, 18, 1, true]} />
-            <Holo color="#f0abfc" opacity={0.5} />
+            <Holo color="#7dffc0" opacity={0.5} />
           </mesh>
           <mesh rotation={[Math.PI / 2.15, 0.3, 0]}>
             <torusGeometry args={[1.15, 0.016, 8, 90]} />
-            <Holo color="#f0abfc" opacity={0.6} />
+            <Holo color="#7dffc0" opacity={0.6} />
           </mesh>
           <mesh rotation={[Math.PI / 1.8, -0.4, 0]}>
             <torusGeometry args={[1.45, 0.012, 8, 90]} />
-            <Holo color="#4df0ff" opacity={0.5} />
+            <Holo color="#5cffb8" opacity={0.5} />
           </mesh>
           <mesh rotation={[Math.PI / 2.5, 0.8, 0]}>
             <torusGeometry args={[1.75, 0.009, 8, 90]} />
-            <Holo color="#a78bfa" opacity={0.4} />
+            <Holo color="#34d399" opacity={0.4} />
           </mesh>
         </group>
       );
@@ -328,12 +328,12 @@ function Model({ variant }: { variant: HoloVariant }) {
         <group>
           <mesh>
             <dodecahedronGeometry args={[1.15, 0]} />
-            <Holo color="#4df0ff" opacity={0.55} />
+            <Holo color="#5cffb8" opacity={0.55} />
           </mesh>
           <mesh scale={0.52}>
             <icosahedronGeometry args={[1.15, 1]} />
             <meshBasicMaterial
-              color="#00f0ff"
+              color="#00ff9d"
               transparent
               opacity={0.12}
               depthWrite={false}
@@ -341,7 +341,7 @@ function Model({ variant }: { variant: HoloVariant }) {
           </mesh>
           <mesh rotation={[0.4, 0, Math.PI / 2.6]}>
             <torusGeometry args={[1.7, 0.012, 8, 100]} />
-            <Holo color="#a78bfa" opacity={0.55} />
+            <Holo color="#34d399" opacity={0.55} />
           </mesh>
         </group>
       );
@@ -350,10 +350,10 @@ function Model({ variant }: { variant: HoloVariant }) {
         <group>
           <mesh>
             <sphereGeometry args={[0.7, 16, 16]} />
-            <Holo color="#a78bfa" opacity={0.5} />
+            <Holo color="#34d399" opacity={0.5} />
           </mesh>
-          <OrbitRing radius={1.35} speed={1.1} tilt={Math.PI / 2.6} color="#00f0ff" />
-          <OrbitRing radius={1.8} speed={-0.7} tilt={Math.PI / 1.9} color="#f0abfc" />
+          <OrbitRing radius={1.35} speed={1.1} tilt={Math.PI / 2.6} color="#00ff9d" />
+          <OrbitRing radius={1.8} speed={-0.7} tilt={Math.PI / 1.9} color="#7dffc0" />
         </group>
       );
     case "006": // AGRIVISION — eco field sphere
@@ -361,17 +361,17 @@ function Model({ variant }: { variant: HoloVariant }) {
         <group>
           <mesh>
             <icosahedronGeometry args={[1.05, 1]} />
-            <Holo color="#8ef5ff" opacity={0.5} />
+            <Holo color="#b0ffd9" opacity={0.5} />
           </mesh>
           <mesh rotation={[Math.PI / 2.5, 0.4, 0]}>
             <torusGeometry args={[1.5, 0.012, 8, 90]} />
-            <Holo color="#f0abfc" opacity={0.55} />
+            <Holo color="#7dffc0" opacity={0.55} />
           </mesh>
           <mesh rotation={[Math.PI / 1.7, -0.3, 0]}>
             <torusGeometry args={[1.8, 0.009, 8, 90]} />
-            <Holo color="#a78bfa" opacity={0.45} />
+            <Holo color="#34d399" opacity={0.45} />
           </mesh>
-          <OrbitRing radius={1.25} speed={0.8} tilt={Math.PI / 2.1} color="#00f0ff" />
+          <OrbitRing radius={1.25} speed={0.8} tilt={Math.PI / 2.1} color="#00ff9d" />
         </group>
       );
   }
