@@ -1,8 +1,15 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { identity } from "@/config/portfolio";
+import FluidButton from "./fluid-button";
+
+const HoloCanvas = dynamic(
+  () => import("./three/holograms").then((m) => m.HoloCanvas),
+  { ssr: false }
+);
 
 const letterContainer = {
   hidden: {},
@@ -51,6 +58,7 @@ export default function Hero() {
   });
   // cinematic exit: content drifts up + fades as you scroll away
   const yContent = useTransform(scrollYProgress, [0, 1], [0, -140]);
+  const ySpace = useTransform(scrollYProgress, [0, 1], [0, 90]);
   const opacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 0.94]);
 
@@ -60,23 +68,28 @@ export default function Hero() {
       id="top"
       className="relative flex min-h-svh flex-col justify-center overflow-hidden"
     >
-      {/* tech grid backdrop */}
-      <div className="tech-grid absolute inset-0" aria-hidden="true" />
+      {/* ── 3D holographic void (WebGL) ── */}
+      <motion.div style={{ y: ySpace }} className="absolute inset-0 z-0">
+        <HoloCanvas variant="hero" offsetX={1.35} />
+      </motion.div>
+
+      {/* tech grid backdrop (above canvas, below content) */}
+      <div className="tech-grid pointer-events-none absolute inset-0 z-[1]" aria-hidden="true" />
 
       {/* aurora blobs */}
       <div
         aria-hidden="true"
-        className="animate-drift-a absolute -top-32 left-[8%] h-96 w-96 rounded-full bg-cyan-500/12 blur-[130px]"
+        className="animate-drift-a pointer-events-none absolute -top-32 left-[8%] z-0 h-96 w-96 rounded-full bg-cyan-500/12 blur-[130px]"
       />
       <div
         aria-hidden="true"
-        className="animate-drift-b absolute bottom-0 right-[4%] h-[28rem] w-[28rem] rounded-full bg-violet-500/14 blur-[150px]"
+        className="animate-drift-b pointer-events-none absolute bottom-0 right-[4%] z-0 h-[28rem] w-[28rem] rounded-full bg-violet-500/14 blur-[150px]"
       />
 
       {/* HUD corner meta */}
       <div
         aria-hidden="true"
-        className="absolute bottom-10 left-6 font-hud text-[9px] text-cyan-300/50 sm:left-10"
+        className="absolute bottom-10 left-6 z-10 font-hud text-[9px] text-cyan-300/50 sm:left-10"
       >
         LAT 19.0760° N
         <br />
@@ -84,7 +97,7 @@ export default function Hero() {
       </div>
       <div
         aria-hidden="true"
-        className="absolute right-6 top-24 text-right font-hud text-[9px] text-cyan-300/50 sm:right-10"
+        className="absolute right-6 top-24 z-10 text-right font-hud text-[9px] text-cyan-300/50 sm:right-10"
       >
         FILE // PORTFOLIO
         <br />
@@ -100,7 +113,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 2.2, duration: 0.6 }}
-          className="mb-7 inline-flex items-center gap-2.5 border border-cyan-400/25 bg-cyan-400/5 px-4 py-1.5"
+          className="mb-7 inline-flex items-center gap-2.5 border border-cyan-400/25 bg-[#050508]/60 px-4 py-1.5 backdrop-blur"
         >
           <span className="relative flex h-2 w-2">
             <span className="ping-ring absolute inline-flex h-full w-full rounded-full bg-cyan-400" />
@@ -114,21 +127,39 @@ export default function Hero() {
           </span>
         </motion.div>
 
-        {/* the name */}
-        <h1 className="font-display font-bold leading-[0.92] tracking-tight">
-          <span className="sr-only">
-            {identity.firstName} {identity.lastName} — {identity.role}
-          </span>
-          <Letters
-            word={identity.firstName}
-            className="text-[clamp(3.4rem,12vw,9.5rem)] text-foreground"
-          />
-          <br />
-          <Letters
-            word={identity.lastName}
-            className="gradient-text glow-text-violet text-[clamp(3.4rem,12vw,9.5rem)]"
-          />
-        </h1>
+        {/* the name + mirror reflection */}
+        <div className="relative">
+          <h1 className="font-display font-bold leading-[0.92] tracking-tight">
+            <span className="sr-only">
+              {identity.firstName} {identity.lastName} — {identity.role}
+            </span>
+            <Letters
+              word={identity.firstName}
+              className="text-[clamp(3.4rem,12vw,9.5rem)] text-foreground"
+            />
+            <br />
+            <Letters
+              word={identity.lastName}
+              className="gradient-text animate-gradient-flow glow-text-violet text-[clamp(3.4rem,12vw,9.5rem)]"
+            />
+          </h1>
+
+          {/* mirror */}
+          <motion.div
+            aria-hidden="true"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 3.8, duration: 1.2 }}
+            className="mirror-text absolute inset-x-0 top-full hidden font-display font-bold leading-[0.92] tracking-tight lg:block"
+          >
+            <div className="text-[clamp(3.4rem,12vw,9.5rem)] text-foreground">
+              {identity.firstName}
+            </div>
+            <div className="text-[clamp(3.4rem,12vw,9.5rem)] text-foreground">
+              {identity.lastName}
+            </div>
+          </motion.div>
+        </div>
 
         {/* role line */}
         <motion.div
@@ -153,25 +184,19 @@ export default function Hero() {
           {identity.tagline}
         </motion.p>
 
-        {/* CTA row */}
+        {/* CTA row — fluid buttons */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 3.5, duration: 0.7 }}
           className="mt-10 flex flex-wrap items-center gap-4"
         >
-          <a
-            href="#works"
-            className="sheen group relative border border-cyan-400/50 bg-cyan-400/10 px-8 py-3.5 font-hud text-xs text-cyan-200 transition-all duration-300 hover:bg-cyan-400/20 hover:shadow-[0_0_30px_rgba(0,240,255,0.35)]"
-          >
+          <FluidButton href="#works" tone="cyan" className="!bg-[#050508]/60 backdrop-blur">
             VIEW MY WORK →
-          </a>
-          <a
-            href="#transmit"
-            className="border border-white/10 px-8 py-3.5 font-hud text-xs text-muted-foreground transition-all duration-300 hover:border-violet-400/50 hover:text-violet-300 hover:shadow-[0_0_30px_rgba(167,139,250,0.25)]"
-          >
+          </FluidButton>
+          <FluidButton href="#transmit" tone="ghost" className="!bg-[#050508]/40 backdrop-blur">
             GET IN TOUCH
-          </a>
+          </FluidButton>
         </motion.div>
       </motion.div>
 
@@ -203,7 +228,7 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 3.9 }}
-        className="absolute bottom-0 left-1/2 hidden -translate-x-1/2 sm:block"
+        className="absolute bottom-0 left-1/2 z-10 hidden -translate-x-1/2 sm:block"
       >
         <div className="animate-scroll-drip h-16 w-px bg-gradient-to-b from-cyan-400 to-transparent" />
       </motion.div>

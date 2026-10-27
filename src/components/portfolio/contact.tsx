@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Mail } from "lucide-react";
 import { identity, socials } from "@/config/portfolio";
+import FluidButton from "./fluid-button";
 import { SectionHeading } from "./about";
 
 export default function Contact() {
@@ -40,13 +41,10 @@ export default function Contact() {
             transition={{ duration: 0.7, delay: 0.25 }}
             className="mt-12 flex flex-wrap items-center gap-5"
           >
-            <a
-              href={`mailto:${identity.email}`}
-              className="sheen group inline-flex items-center gap-3 border border-cyan-400/50 bg-cyan-400/10 px-9 py-4 font-hud text-xs text-cyan-200 transition-all duration-300 hover:bg-cyan-400/20 hover:shadow-[0_0_45px_rgba(0,240,255,0.4)]"
-            >
-              <Mail className="h-4 w-4 transition-transform duration-300 group-hover:-rotate-12" />
+            <FluidButton href={`mailto:${identity.email}`} tone="cyan" className="!bg-cyan-400/10">
+              <Mail className="h-4 w-4" />
               INITIATE CONTACT
-            </a>
+            </FluidButton>
             <span className="font-hud text-[10px] text-muted-foreground">
               RESPONSE TIME · <span className="text-cyan-300">&lt; 24 HRS</span>
             </span>

@@ -119,9 +119,134 @@
 
 .gradient-text {
   background: linear-gradient(100deg, #00f0ff 0%, #7dd3fc 35%, #a78bfa 70%, #f0abfc 100%);
+  background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+.animate-gradient-flow {
+  animation: gradient-flow 6s ease infinite;
+}
+@keyframes gradient-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ---------- hologram effects ---------- */
+@keyframes holo-flicker {
+  0%, 100% { opacity: 1; }
+  8% { opacity: 0.35; }
+  10% { opacity: 0.9; }
+  22% { opacity: 0.55; }
+  24% { opacity: 1; }
+  70% { opacity: 0.85; }
+  72% { opacity: 0.45; }
+  74% { opacity: 1; }
+}
+.holo-flicker {
+  animation: holo-flicker 4.5s linear infinite;
+}
+
+@keyframes scan-sweep {
+  0% { transform: translateY(-130%); }
+  100% { transform: translateY(260%); }
+}
+.scan-sweep {
+  animation: scan-sweep 3.4s ease-in-out infinite;
+}
+
+.scanlines {
+  position: relative;
+}
+.scanlines::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 240, 255, 0.05) 0 1px,
+    transparent 1px 3px
+  );
+  mix-blend-mode: screen;
+  z-index: 5;
+}
+
+@keyframes caret-blink {
+  0%, 45% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.caret-blink {
+  animation: caret-blink 1s steps(1) infinite;
+}
+
+@keyframes glitch-in {
+  0% { opacity: 0; transform: scale(1.07) translateX(7px); filter: brightness(2.6); }
+  30% { opacity: 1; transform: scale(0.985) translateX(-4px); }
+  45% { transform: scale(1.01) translateX(2px); filter: brightness(1.7); }
+  62% { transform: translateX(-1px); }
+  100% { opacity: 1; transform: none; filter: none; }
+}
+.glitch-in {
+  animation: glitch-in 0.6s ease both;
+}
+
+/* ---------- liquid fill (buttons) ---------- */
+@keyframes liquid-morph {
+  0%, 100% { border-radius: 46% 54% 58% 42% / 48% 42% 58% 52%; }
+  33% { border-radius: 58% 42% 44% 56% / 44% 58% 42% 56%; }
+  66% { border-radius: 42% 58% 56% 44% / 56% 44% 58% 42%; }
+}
+.liquid-morph {
+  animation: liquid-morph 2.4s ease-in-out infinite;
+}
+
+/* ---------- mirror reflection ---------- */
+.mirror-text {
+  transform: scaleY(-1);
+  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.3), transparent 42%);
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.3), transparent 42%);
+  opacity: 0.22;
+  filter: blur(2.5px);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ---------- rotating conic border beam ---------- */
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+.border-beam {
+  position: relative;
+}
+.border-beam::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--angle),
+    transparent 0%,
+    #00f0ff 10%,
+    transparent 24%,
+    transparent 52%,
+    #a78bfa 68%,
+    transparent 84%
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: angle-spin 5s linear infinite;
+  pointer-events: none;
+  z-index: 6;
+}
+@keyframes angle-spin {
+  to { --angle: 360deg; }
 }
 
 /* ---------- glow utilities ---------- */
@@ -287,7 +412,12 @@
   .animate-marquee-right,
   .animate-drift-a,
   .animate-drift-b,
-  .animate-spin-slow {
+  .animate-spin-slow,
+  .holo-flicker,
+  .scan-sweep,
+  .liquid-morph,
+  .animate-gradient-flow,
+  .border-beam::before {
     animation: none;
   }
   html {
