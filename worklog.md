@@ -118,3 +118,20 @@ Stage Summary:
 - Deliverable: continuous 3D-world portfolio — scroll IS the camera; surface -> portal -> void core narrative
 - Reference checklist: pitch-black void ✓ dark glossy sphere ✓ monolith cliffs ✓ scroll-to-descend ✓ % indicator ✓ white sans + italic serif ✓ green accent (GLINT) ✓ advanced 3D (GLSL fresnel, noise displacement, bloom, camera choreography) ✓
 - All prior features intact: preloader, typewriter dossiers, holograms, fluid buttons, mirror, real content + photos
+
+---
+Task ID: 6
+Agent: Main agent (Z.ai)
+Task: Post-summary verification pass — Peachworlds-grade 3D world (v3) end-to-end QA
+
+Work Log:
+- Resumed after context rollover; confirmed Task 5 (scroll-world rebuild) already on disk: scroll-world.tsx present, @react-three/postprocessing installed, page.tsx mounts ScrollWorld + ScrollHud, dev server 200, lint clean
+- Desktop 1440x900 agent-browser pass: hero (dark glossy sphere, white top rim, monolith cliffs, portal arc, SCROLL TO GO UNDER 0% HUD), about descent (green sphere underbelly + gate streak + DESCENDING 24%, HOLO-ME avatar + VERIFIED ID), works reel among glowing monoliths (49%), skills deep void (75%), contact facing DeepCore (100%)
+- Modal QA: click dossier card -> portal overlay correct (no nav/section paint-through), typewriter brief with caret -> chips React 19/FastAPI/CrewAI/LangChain/MongoDB/JWT + VISIT LIVE/SOURCE CODE fade in after typing, NEXT FILE glitch-swaps to torus-knot 002 COLLABIQ with tick 2 highlighted, ESC closes (dialogs:0 after close)
+- Mobile 390x844 pass: hero scrim keeps name/role/quote legible over sphere glow, works card stack + DESCENDING 50%, modal stacked layout mid-typing, contact grid + footer at 100% with green-lit monolith
+- 13 screenshots archived in scripts/verify/v3-*.png; zero page errors (only benign THREE.Clock deprecation + drei scroll-offset warnings)
+
+Stage Summary:
+- v3 Peachworlds-grade rebuild verified live on desktop + mobile: scroll-driven camera descent, GLSL fresnel sphere, bloom/vignette pipeline, portal gate, monolith fields, DeepCore finale, ScrollHud % indicator
+- All prior features (preloader, dossiers, typewriter, fluid buttons, mirror, real identity + photos) intact on top of the new world
+- Deliverable stable and lint-clean
