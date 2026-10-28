@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail } from "lucide-react";
+import { Mail, MessageCircle } from "lucide-react";
 import { identity, socials } from "@/config/portfolio";
 import FluidButton from "./fluid-button";
 import { SectionHeading } from "./about";
@@ -16,7 +16,7 @@ export default function Contact() {
       />
 
       <div className="mx-auto w-full max-w-7xl">
-        <SectionHeading index="04" title="OPEN TRANSMISSION" />
+        <SectionHeading index="05" title="OPEN TRANSMISSION" />
 
         <div className="relative">
           {/* giant CTA text */}
@@ -41,9 +41,19 @@ export default function Contact() {
             transition={{ duration: 0.7, delay: 0.25 }}
             className="mt-12 flex flex-wrap items-center gap-5"
           >
-            <FluidButton href={`mailto:${identity.email}`} tone="cyan" className="!bg-emerald-400/10">
+            {/* primary — opens a WhatsApp chat straight to my phone */}
+            <FluidButton
+              href={identity.whatsapp}
+              tone="cyan"
+              className="!bg-emerald-400/10"
+            >
+              <MessageCircle className="h-4 w-4" />
+              MESSAGE ON WHATSAPP
+            </FluidButton>
+            {/* secondary — email client */}
+            <FluidButton href={`mailto:${identity.email}`} tone="ghost">
               <Mail className="h-4 w-4" />
-              INITIATE CONTACT
+              SEND EMAIL
             </FluidButton>
             <span className="font-hud text-[10px] text-muted-foreground">
               RESPONSE TIME · <span className="text-emerald-300">&lt; 24 HRS</span>
@@ -80,9 +90,14 @@ export default function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.7, delay: 0.45 }}
-            className="mt-10 grid gap-px overflow-hidden border border-white/5 bg-white/5 sm:grid-cols-3"
+            className="mt-10 grid gap-px overflow-hidden border border-white/5 bg-white/5 sm:grid-cols-2 lg:grid-cols-4"
           >
             {[
+              {
+                k: "WHATSAPP",
+                v: identity.phone,
+                href: identity.whatsapp,
+              },
               {
                 k: "EMAIL",
                 v: identity.email,

@@ -198,7 +198,7 @@ export default function Projects() {
       {/* heading stays in normal flow */}
       <div className="px-5 pt-28 sm:px-8 sm:pt-36">
         <div className="mx-auto max-w-7xl">
-          <SectionHeading index="02" title="SELECTED WORKS" />
+          <SectionHeading index="03" title="SELECTED WORKS" />
           <p className="-mt-8 max-w-md font-hud text-[10px] leading-relaxed text-muted-foreground sm:-mt-10">
             KEEP SCROLLING — THE PAGE TURNS INTO A FILM REEL. PRESS ANY FILE TO
             PROJECT ITS HOLOGRAM.

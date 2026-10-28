@@ -4,7 +4,7 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
-import { about, journey, identity } from "@/config/portfolio";
+import { about, identity } from "@/config/portfolio";
 import { useScramble } from "@/hooks/use-scramble";
 
 const HoloBodyCanvas = dynamic(
@@ -257,53 +257,7 @@ export default function About() {
               ))}
             </div>
 
-            {/* journey timeline */}
-            <div className="mt-16">
-              <div className="mb-8 flex items-center gap-3">
-                <span className="font-hud text-[10px] text-emerald-300">
-                  THE JOURNEY
-                </span>
-                <span aria-hidden="true" className="h-px w-16 bg-emerald-400/40" />
-                <span className="font-hud text-[9px] text-muted-foreground">
-                  {about.internship}
-                </span>
-              </div>
-
-              <ol className="relative space-y-8 border-l border-white/10 pl-8">
-                {journey.map((j, i) => (
-                  <motion.li
-                    key={j.phase}
-                    initial={{ opacity: 0, x: -30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, margin: "-60px" }}
-                    transition={{ delay: i * 0.06, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                    className="group relative"
-                  >
-                    {/* node */}
-                    <span
-                      aria-hidden="true"
-                      className="absolute -left-[38px] top-1 flex h-3 w-3 items-center justify-center rounded-full border border-emerald-400/60 bg-[#050508] transition-all group-hover:shadow-[0_0_14px_rgba(0,255,157,0.7)]"
-                    >
-                      <span className="h-1 w-1 rounded-full bg-emerald-300" />
-                    </span>
-                    <div className="flex flex-wrap items-baseline gap-x-4">
-                      <span className="font-hud text-[9px] text-emerald-400/80">
-                        {j.phase}
-                      </span>
-                      <span className="font-hud text-[9px] text-muted-foreground">
-                        {j.year}
-                      </span>
-                      <h4 className="font-display text-base font-bold text-foreground transition-colors group-hover:text-emerald-200 sm:text-lg">
-                        {j.title}
-                      </h4>
-                    </div>
-                    <p className="mt-1.5 max-w-xl text-sm leading-relaxed text-muted-foreground">
-                      {j.desc}
-                    </p>
-                  </motion.li>
-                ))}
-              </ol>
-            </div>
+            {/* stats close the story — the journey lives in its own section */}
           </div>
         </div>
       </div>

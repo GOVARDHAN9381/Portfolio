@@ -155,3 +155,29 @@ Stage Summary:
 - HOLO-ME panel now projects a professional photo-real full-body hologram of the actual user with hologram-shader treatment — replaces wireframe mannequin
 - Assets: public/holo/fullbody.png + holo-edges.ts; regenerable via scripts/gen_fullbody.mjs + cutout_fullbody.py
 - Screenshots: scripts/verify/v4-01..v4-06
+
+---
+Task ID: 8
+Agent: Main agent (Z.ai)
+Task: v5 feedback round — percentage LEVEL system, separate 3D-max Journey section, WhatsApp contact fix
+
+Work Log:
+- User feedback (3 items): (1) "remaining are not generated levels of percentage", (2) "in journey keep separate section for journey and make more 3d max", (3) "clicking contact not going to msg"
+- Diagnosed via agent-browser: HUD % was continuous (0->100) but had NO level structure; journey was a plain timeline buried in About; contact CTA was mailto-only (silent no-op on devices without a mail client / in preview iframes)
+- config/portfolio.ts: added identity.whatsapp deep link (wa.me/919381726915 with prefilled greeting) + WHATSAPP first in socials
+- scroll-world.tsx upgrades:
+  * SECTION_IDS now [top, about, journey, works, arsenal, transmit]; camera path + look path gained a journey waypoint (0.6,-2.7,7.2) threading the new spine
+  * NEW JourneySpine: 6 milestone gates (SpineGate torus+halo+orbiting node) at y=-1.4..-4.0, flare by camera proximity, data-beam cylinder + traveling point light driven by descent; lite mode drops orbs
+  * NEW ScrollHud LEVEL system: LEVEL_NAMES[SURFACE,IDENTITY,JOURNEY,WORKS,ARSENAL,TRANSMIT], label "DESCENDING — <LEVEL>", LVL 0X/06 readout, brighter % with glow, tick marks at 20/40/60/80% on the bar
+  * Fixed level boundary bug: level now derived from raw scroll ratio vs unwarped section tops (world.t + levelBreaks + levelFromT) so TRANSMIT shows correctly at page bottom (was ARSENAL 100%)
+- NEW journey.tsx section (id="journey", heading 02): sticky ROUTE MAP panel (big LVL readout, JOURNEY COMPLETION %, 6 clickable level rows with cumulative 17..100%), 6 level cards with DEPTH % chip, LVL chip, active glow via IntersectionObserver (-42% band), 3D tilt hover (transformPerspective 900), rail with nodes, per-card fill bar, "ROUTE" outline watermark (clipped in own overlay to preserve sticky)
+- about.tsx: removed inline journey timeline + journey import; page.tsx mounts <Journey /> between About and Projects
+- nav.tsx: JOURNEY added as 02; renumbered 01-05; SectionHeading indices: journey 02, works 03, arsenal 04, transmit 05
+- contact.tsx: primary CTA -> FluidButton "MESSAGE ON WHATSAPP" (wa.me deep link, MessageCircle icon), secondary ghost "SEND EMAIL"; direct channels grid now 4 cols (WHATSAPP/EMAIL/PHONE/BASE); sm:grid-cols-2 lg:grid-cols-4
+- Verified desktop 1440x900 + mobile 390x844: 6-level HUD continuity (SCROLL TO GO UNDER 0% -> SURFACE -> IDENTITY -> JOURNEY 41-58% -> WORKS 63-79% -> ARSENAL 89% -> TRANSMIT 100% LVL 06/06), journey sticky route map (fixed overflow-hidden sticky bug), route row click jumps to level, works reel framing intact after camera change, contact links all live (wa.me/mailto/tel), mobile route map + cards + HUD all correct
+- 10 screenshots archived scripts/verify/v5-01..v5-10; bun run lint clean; zero console/page errors
+
+Stage Summary:
+- Percentage system: every depth level of the page now has a generated LVL + % readout (HUD) and every journey phase carries its cumulative DEPTH % (route map + cards)
+- Journey is its own max-3D section: camera dives through 6 glowing spine gates while the sticky route map tracks the active level
+- Contact goes to a real message: WhatsApp deep link primary (opens chat with prefilled text), email/tel secondary

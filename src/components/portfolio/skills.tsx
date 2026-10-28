@@ -71,7 +71,7 @@ export default function Skills() {
   return (
     <section id="arsenal" className="relative z-10 py-28 sm:py-36">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <SectionHeading index="03" title="THE ARSENAL" />
+        <SectionHeading index="04" title="THE ARSENAL" />
       </div>
 
       <MarqueeRow />

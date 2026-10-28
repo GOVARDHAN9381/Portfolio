@@ -25,6 +25,7 @@ import * as THREE from "three";
    No react state → zero re-renders at 60fps. */
 const world = {
   p: 0, // raw scroll progress 0..1 (piecewise over sections)
+  t: 0, // raw scroll ratio 0..1 (unwarped — level lookup)
   sp: 0, // smoothed progress (damped in useFrame)
   v: 0, // scroll velocity magnitude 0..1
   mx: 0, // pointer -1..1
@@ -55,8 +56,11 @@ function mulberry32(seed: number) {
 }
 
 /* ── piecewise scroll progress measured from real section offsets ── */
-const SECTION_IDS = ["top", "about", "works", "arsenal", "transmit"];
-let breaks: number[] = [0, 0.2, 0.45, 0.7, 1];
+const SECTION_IDS = ["top", "about", "journey", "works", "arsenal", "transmit"];
+let breaks: number[] = [0, 0.16, 0.34, 0.52, 0.72, 1];
+/* unwarped tops for the LEVEL label — camera path may stretch the
+   last segment, but the label must flip when the real section does */
+let levelBreaks: number[] = [0, 0.16, 0.34, 0.52, 0.72, 0.94];
 
 function measureBreakpoints() {
   if (typeof document === "undefined") return;
@@ -70,6 +74,16 @@ function measureBreakpoints() {
   breaks[0] = 0;
   breaks[breaks.length - 1] = Math.min(1, breaks[breaks.length - 1] || 1);
   if (breaks[breaks.length - 1] < 0.98) breaks[breaks.length - 1] = 1;
+  levelBreaks = tops.map((t) => Math.min(1, t / max));
+  levelBreaks[0] = 0;
+}
+
+/* which level does a raw scroll ratio sit in? */
+function levelFromT(t: number) {
+  for (let i = 0; i < levelBreaks.length - 1; i++) {
+    if (t < levelBreaks[i + 1]) return i;
+  }
+  return levelBreaks.length - 1;
 }
 
 function progressFromScroll(y: number, max: number) {
@@ -297,6 +311,118 @@ function DeepCore() {
   );
 }
 
+/* ════════════════════════ JOURNEY SPINE ════════════════════════
+   Six milestone gates threaded down the void between IDENTITY
+   and WORKS — one per journey phase. The camera dives THROUGH
+   each ring; the nearest gate flares as you pass.             */
+const SPINE_X = 0.3;
+const GATE_YS = [-1.4, -1.92, -2.44, -2.96, -3.48, -4.0];
+const SPINE_SPAN = GATE_YS[GATE_YS.length - 1] - GATE_YS[0];
+
+function SpineGate({
+  y,
+  index,
+  node,
+}: {
+  y: number;
+  index: number;
+  node: boolean;
+}) {
+  const ring = useRef<THREE.Mesh>(null!);
+  const halo = useRef<THREE.Mesh>(null!);
+  const orb = useRef<THREE.Mesh>(null!);
+  const seed = index * 1.7;
+
+  useFrame((state) => {
+    const t = state.clock.elapsedTime;
+    // flare when the camera is close to this gate
+    const d = Math.abs(state.camera.position.y - y);
+    const near = THREE.MathUtils.clamp(1 - d / 2.6, 0, 1);
+    const pulse = 0.5 + Math.sin(t * 1.6 + seed) * 0.14;
+    const m = ring.current.material as THREE.MeshBasicMaterial;
+    m.opacity = 0.16 + pulse * 0.5 * (0.35 + 0.65 * near);
+    const hm = halo.current.material as THREE.MeshBasicMaterial;
+    hm.opacity = 0.05 + near * 0.22;
+    ring.current.rotation.z = t * 0.14 * (index % 2 === 0 ? 1 : -1);
+    halo.current.rotation.z = -t * 0.09;
+    if (orb.current) {
+      const a = t * (0.5 + index * 0.11) + seed;
+      orb.current.position.set(
+        Math.cos(a) * 2.14,
+        Math.sin(a) * 2.14,
+        Math.sin(t * 0.8 + seed) * 0.12
+      );
+      const om = orb.current.material as THREE.MeshBasicMaterial;
+      om.opacity = 0.35 + near * 0.6;
+    }
+  });
+
+  return (
+    <group position={[SPINE_X, y, 0]} rotation={[0, 0, index * 0.22 - 0.5]}>
+      <mesh ref={ring} rotation={[Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[2.05, 0.012, 8, 96]} />
+        <meshBasicMaterial color="#00ff9d" transparent opacity={0.3} />
+      </mesh>
+      <mesh ref={halo} rotation={[Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[2.5, 0.004, 6, 96]} />
+        <meshBasicMaterial color="#eafff4" transparent opacity={0.08} />
+      </mesh>
+      {node && (
+        <mesh ref={orb}>
+          <sphereGeometry args={[0.035, 10, 10]} />
+          <meshBasicMaterial color="#b0ffd9" transparent opacity={0.6} />
+        </mesh>
+      )}
+    </group>
+  );
+}
+
+function JourneySpine({ lite }: { lite: boolean }) {
+  const beam = useRef<THREE.Mesh>(null!);
+  const light = useRef<THREE.PointLight>(null!);
+
+  useFrame((state, delta) => {
+    // a signal travels down the spine as the visitor descends
+    const y = GATE_YS[0] + SPINE_SPAN * THREE.MathUtils.clamp(world.sp * 5, 0, 1);
+    beam.current.position.y = THREE.MathUtils.damp(
+      beam.current.position.y,
+      y,
+      3.5,
+      delta
+    );
+    (beam.current.material as THREE.MeshBasicMaterial).opacity =
+      0.1 + world.v * 0.25;
+    light.current.position.y = beam.current.position.y;
+    light.current.intensity = THREE.MathUtils.damp(
+      light.current.intensity,
+      6 + world.v * 18,
+      3,
+      delta
+    );
+  });
+
+  return (
+    <group>
+      {GATE_YS.map((y, i) => (
+        <SpineGate key={y} y={y} index={i} node={!lite || i % 2 === 0} />
+      ))}
+      {/* data beam threading the gates */}
+      <mesh ref={beam} position={[SPINE_X, GATE_YS[0], 0]}>
+        <cylinderGeometry args={[0.006, 0.006, SPINE_SPAN, 6, 1, true]} />
+        <meshBasicMaterial color="#9dffd0" transparent opacity={0.12} />
+      </mesh>
+      <pointLight
+        ref={light}
+        color="#00ff9d"
+        intensity={6}
+        distance={7}
+        decay={2}
+        position={[SPINE_X, GATE_YS[0], 1.2]}
+      />
+    </group>
+  );
+}
+
 /* ════════════════════════ CAMERA RIG ════════════════════════
    A Catmull path through the world; scroll drags the camera
    along it, pointer adds parallax, velocity adds roll.        */
@@ -304,6 +430,7 @@ const camPath = new THREE.CatmullRomCurve3(
   [
     new THREE.Vector3(0, 0.62, 9.6), // hero — sphere framed by cliffs
     new THREE.Vector3(-1.7, -0.75, 7.8), // about — drift left
+    new THREE.Vector3(0.6, -2.7, 7.2), // journey — threading the spine gates
     new THREE.Vector3(0.9, -4.6, 8.1), // works — under the crust, gate above
     new THREE.Vector3(-1.0, -8.1, 7.4), // skills — deep void
     new THREE.Vector3(0, -12.4, 8.8), // contact — facing the core
@@ -316,6 +443,7 @@ const lookPath = new THREE.CatmullRomCurve3(
   [
     new THREE.Vector3(0, 0.62, 0),
     new THREE.Vector3(-0.4, -0.9, 0),
+    new THREE.Vector3(0.3, -3.4, -0.4), // journey — down the spine
     new THREE.Vector3(0, -5.2, -1.6),
     new THREE.Vector3(0.2, -8.8, -0.6),
     new THREE.Vector3(0, -13.6, -1.2),
@@ -367,6 +495,7 @@ function useWorldListeners() {
         const dy = pendingY - lastY;
         const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
         world.p = progressFromScroll(pendingY, max);
+        world.t = Math.min(1, Math.max(0, pendingY / max));
         world.v = Math.min(1, (Math.abs(dy) / dt) * 1.4);
         lastY = pendingY;
         lastT = now;
@@ -398,20 +527,36 @@ function useWorldListeners() {
   }, []);
 }
 
-/* percent HUD — matches the reference "3%" indicator */
+/* descent HUD — SIX LEVELS of percentage: the label names the
+   level you are inside (SURFACE → TRANSMIT), the % shows depth
+   inside the whole run, and the bar carries level tick marks. */
+const LEVEL_NAMES = [
+  "SURFACE",
+  "IDENTITY",
+  "JOURNEY",
+  "WORKS",
+  "ARSENAL",
+  "TRANSMIT",
+];
+
 export function ScrollHud() {
   const pct = useRef<HTMLSpanElement>(null);
   const label = useRef<HTMLSpanElement>(null);
+  const lvl = useRef<HTMLSpanElement>(null);
   const bar = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let raf = 0;
     const tick = () => {
       const p = Math.round(world.sp * 100);
+      const li = levelFromT(world.t);
       if (pct.current) pct.current.textContent = `${p}%`;
       if (label.current)
         label.current.textContent =
-          world.sp < 0.045 ? "SCROLL TO GO UNDER" : "DESCENDING —";
+          world.sp < 0.02
+            ? "SCROLL TO GO UNDER"
+            : `DESCENDING — ${LEVEL_NAMES[li]}`;
+      if (lvl.current) lvl.current.textContent = `LVL ${String(li + 1).padStart(2, "0")}/06`;
       if (bar.current) bar.current.style.height = `${world.sp * 100}%`;
       raf = requestAnimationFrame(tick);
     };
@@ -424,16 +569,32 @@ export function ScrollHud() {
       aria-hidden="true"
       className="fixed bottom-7 right-6 z-40 flex items-end gap-3 sm:right-9"
     >
-      <div className="flex flex-col items-end gap-1.5">
+      <div className="flex flex-col items-end gap-1">
         <span ref={label} className="font-hud text-[9px] text-foreground/70">
           SCROLL TO GO UNDER
         </span>
-        <span ref={pct} className="font-hud text-[11px] text-emerald-300">
+        <span ref={pct} className="font-hud text-[13px] leading-none text-emerald-300 [text-shadow:0_0_12px_rgba(0,255,157,0.55)]">
           0%
         </span>
+        <span ref={lvl} className="font-hud text-[8px] text-emerald-300/60">
+          LVL 01/06
+        </span>
       </div>
-      <div className="mb-0.5 h-12 w-px overflow-hidden bg-white/12">
-        <div ref={bar} className="w-full bg-emerald-400 shadow-[0_0_8px_rgba(0,255,157,0.8)]" />
+      <div className="relative mb-0.5 h-16 w-px overflow-visible bg-white/12">
+        {/* level tick marks — one per level boundary */}
+        {[20, 40, 60, 80].map((t) => (
+          <span
+            key={t}
+            className="absolute left-[-2px] h-px w-[5px] bg-white/30"
+            style={{ top: `${t}%` }}
+          />
+        ))}
+        <div className="absolute inset-0 overflow-hidden">
+          <div
+            ref={bar}
+            className="w-full bg-emerald-400 shadow-[0_0_8px_rgba(0,255,157,0.8)]"
+          />
+        </div>
       </div>
     </div>
   );
@@ -466,6 +627,7 @@ export const ScrollWorld = memo(function ScrollWorld() {
             <HeroSphere />
             <Monoliths lite={lite} />
             <Portal />
+            <JourneySpine lite={lite} />
             <DeepCore />
             <Sparkles
               count={lite ? 60 : 110}

@@ -6,9 +6,10 @@ import { identity } from "@/config/portfolio";
 
 const LINKS = [
   { n: "01", label: "ABOUT", href: "#about" },
-  { n: "02", label: "WORKS", href: "#works" },
-  { n: "03", label: "ARSENAL", href: "#arsenal" },
-  { n: "04", label: "TRANSMIT", href: "#transmit" },
+  { n: "02", label: "JOURNEY", href: "#journey" },
+  { n: "03", label: "WORKS", href: "#works" },
+  { n: "04", label: "ARSENAL", href: "#arsenal" },
+  { n: "05", label: "TRANSMIT", href: "#transmit" },
 ];
 
 /**

@@ -17,10 +17,19 @@ export const identity = {
   email: "ngovardhanreddy9381@gmail.com",
   phone: "+91 93817 26915",
   phoneHref: "tel:+919381726915",
+  whatsapp:
+    "https://wa.me/919381726915?text=" +
+    encodeURIComponent(
+      "Hi Govardhan! I just went through your portfolio and I'd like to connect."
+    ),
   coords: { lat: "13.0827° N", long: "80.2707° E" },
 };
 
 export const socials = [
+  {
+    label: "WHATSAPP",
+    href: "https://wa.me/919381726915",
+  },
   { label: "GITHUB", href: "https://github.com/GOVARDHAN9381" },
   {
     label: "LINKEDIN",

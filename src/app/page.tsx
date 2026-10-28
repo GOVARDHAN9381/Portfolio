@@ -3,6 +3,7 @@ import CustomCursor from "@/components/portfolio/custom-cursor";
 import Nav from "@/components/portfolio/nav";
 import Hero from "@/components/portfolio/hero";
 import About from "@/components/portfolio/about";
+import Journey from "@/components/portfolio/journey";
 import Projects from "@/components/portfolio/projects";
 import Skills from "@/components/portfolio/skills";
 import Contact from "@/components/portfolio/contact";
@@ -29,6 +30,7 @@ export default function Page() {
       <main className="relative z-10 flex flex-1 flex-col">
         <Hero />
         <About />
+        <Journey />
         <Projects />
         <Skills />
         <Contact />
