@@ -181,3 +181,20 @@ Stage Summary:
 - Percentage system: every depth level of the page now has a generated LVL + % readout (HUD) and every journey phase carries its cumulative DEPTH % (route map + cards)
 - Journey is its own max-3D section: camera dives through 6 glowing spine gates while the sticky route map tracks the active level
 - Contact goes to a real message: WhatsApp deep link primary (opens chat with prefilled text), email/tel secondary
+
+---
+Task ID: 9
+Agent: Main agent (Z.ai)
+Task: Post-rollover verification pass — v5 feedback round (percentage LEVELs, separate Journey section, WhatsApp contact)
+
+Work Log:
+- Resumed after context rollover; worklog showed Task 8 (v5 feedback round) already implemented all 3 user requests; confirmed on disk: journey.tsx (separate #journey section), contact.tsx (WhatsApp primary CTA), scroll-world.tsx (LEVEL_NAMES + levelFromT + LVL 0X/06 HUD), page.tsx mounts <Journey />, nav has 02 JOURNEY, config has wa.me deep link
+- Live agent-browser verification desktop 1440x900, full descent:
+  * 0% SCROLL TO GO UNDER LVL 01/06 -> DESCENDING — IDENTITY LVL 02/06 -> DESCENDING — JOURNEY LVL 03/06 -> WORKS LVL 04/06 -> ARSENAL LVL 05/06 -> TRANSMIT 100% LVL 06/06 (bottom boundary correct)
+  * #journey section present with ROUTE MAP // DEPTH LEVELS sticky panel (LVL readout, JOURNEY COMPLETION 17%, 6 clickable levels 17..100%), level cards with DEPTH % chips, 3D spine gates + data beams glowing behind
+  * Contact links verified: MESSAGE ON WHATSAPP -> wa.me/919381726915?text=<prefilled greeting>, SEND EMAIL -> mailto:ngovardhanreddy9381@gmail.com, socials + direct channels grid (WHATSAPP/EMAIL/PHONE/BASE) all live hrefs
+- Screenshots scripts/verify/v5-verify-01-journey.png + v5-verify-02-contact.png; console clean (only benign THREE.Clock + drei static-position warnings); zero page errors; bun run lint clean
+
+Stage Summary:
+- All 3 user feedback items confirmed implemented and live: (1) every depth level now generates LVL 0X/06 + named level + % in HUD, (2) Journey is its own max-3D section with sticky route map and depth-percentage levels, (3) Contact primary CTA opens a real WhatsApp chat with prefilled message
+- No code changes needed this pass — pure verification
