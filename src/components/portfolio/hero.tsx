@@ -44,6 +44,8 @@ function Letters({ word, className }: { word: string; className?: string }) {
   );
 }
 
+const [sansWord, serifWord] = identity.lastName.split(" ");
+
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
@@ -120,7 +122,7 @@ export default function Hero() {
           </span>
         </motion.div>
 
-        {/* the name — "GOVARDHAN / & REDDY" like the reference title lockup */}
+        {/* the name — "NARAPAREDDY / GOVARDHAN REDDY" full-name lockup */}
         <div className="relative">
           <h1 className="font-display font-bold leading-[0.92] tracking-tight">
             <span className="sr-only">
@@ -128,19 +130,19 @@ export default function Hero() {
             </span>
             <Letters
               word={identity.firstName}
-              className="text-[clamp(2.9rem,9.5vw,8.2rem)] text-foreground"
+              className="text-[clamp(2.5rem,8.6vw,7.4rem)] text-foreground"
             />
             <br />
+            <Letters
+              word={sansWord}
+              className="text-[clamp(2.5rem,8.6vw,7.4rem)] text-foreground"
+            />
             <span
               aria-hidden="true"
-              className="mr-2 align-baseline font-serif-accent text-[clamp(1.7rem,5.4vw,4.6rem)] font-normal italic text-emerald-300 [text-shadow:0_0_24px_rgba(0,255,157,0.4)]"
+              className="ml-3 align-baseline font-serif-accent text-[clamp(1.6rem,5.2vw,4.4rem)] font-normal italic text-emerald-300 [text-shadow:0_0_24px_rgba(0,255,157,0.4)]"
             >
-              &
+              {serifWord}
             </span>
-            <Letters
-              word={identity.lastName}
-              className="text-[clamp(2.9rem,9.5vw,8.2rem)] text-foreground"
-            />
           </h1>
 
           {/* mirror — softened so it breathes behind the role block */}
@@ -151,14 +153,14 @@ export default function Hero() {
             transition={{ delay: 3.8, duration: 1.2 }}
             className="mirror-text mirror-soft absolute inset-x-0 top-full hidden font-display font-bold leading-[0.92] tracking-tight lg:block"
           >
-            <div className="text-[clamp(2.9rem,9.5vw,8.2rem)] text-foreground">
+            <div className="text-[clamp(2.5rem,8.6vw,7.4rem)] text-foreground">
               {identity.firstName}
             </div>
-            <div className="flex items-baseline text-[clamp(2.9rem,9.5vw,8.2rem)] text-foreground">
-              <span className="mr-2 font-serif-accent text-[clamp(1.7rem,5.4vw,4.6rem)] font-normal italic">
-                &
+            <div className="flex items-baseline text-[clamp(2.5rem,8.6vw,7.4rem)] text-foreground">
+              {sansWord}
+              <span className="ml-3 font-serif-accent text-[clamp(1.6rem,5.2vw,4.4rem)] font-normal italic text-emerald-300">
+                {serifWord}
               </span>
-              {identity.lastName}
             </div>
           </motion.div>
         </div>

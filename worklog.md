@@ -198,3 +198,20 @@ Work Log:
 Stage Summary:
 - All 3 user feedback items confirmed implemented and live: (1) every depth level now generates LVL 0X/06 + named level + % in HUD, (2) Journey is its own max-3D section with sticky route map and depth-percentage levels, (3) Contact primary CTA opens a real WhatsApp chat with prefilled message
 - No code changes needed this pass — pure verification
+
+---
+Task ID: 10
+Agent: Main agent (Z.ai)
+Task: v6 — moving starfield in the 3D world + full-name update to NARAPAREDDY GOVARDHAN REDDY
+
+Work Log:
+- User feedback (2 items): (1) "add stars moving", (2) "change my name as NARAPAREDDY GOVARDHAN REDDY"
+- Name: config identity -> firstName NARAPAREDDY / lastName "GOVARDHAN REDDY" / new initials "NGR"; hero lockup rebuilt as two-line full-name (NARAPAREDDY / GOVARDHAN + REDDY in Instrument Serif italic emerald, per-letter reveal retained, sizes retuned clamp 2.5rem/8.6vw/7.4rem to fit 390px), mirror block matched; nav logo -> NGR.; layout.tsx metadata title + keywords -> full name; preloader/footer/sr-only auto-update from config
+- Stars: new MovingStars in scroll-world.tsx — custom GLSL Points starfield (2400 desktop / 900 lite, seeded mulberry32), stars rise past the descending camera with infinite y-wrap, per-star twinkle (phase-driven), slow global swirl around the descent axis, uDrift uniform damped from world.v so fast scrolling streaks the field, round soft sprites additive-blended, white/pale/mint tint mix, distance-based alpha fade, point size clamped 6.5px; mounted before the Sparkles dust layers
+- Verified desktop 1440x900: hero lockup renders full name with serif REDDY, stars visible across the void, nav NGR., HUD intact; motion PROVEN via 1.4s frame-diff of starfield region (308 pixels changed with static camera = twinkle+drift+swirl)
+- Verified mobile 390x844: h1 fits (width 350 < 390, overflow false), stars visible, footer "© 2025 NARAPAREDDY GOVARDHAN REDDY"; console clean (benign THREE.Clock + drei warnings only), zero page errors, bun run lint clean
+- Screenshots: scripts/verify/v6-01-hero-name-stars.png, v6-02-journey-stars.png, v6-03-mobile-hero.png
+
+Stage Summary:
+- The void is now alive: a moving, twinkling, scroll-reactive starfield wraps the entire descent
+- Full name NARAPAREDDY GOVARDHAN REDDY now drives every name surface: hero, nav logo NGR., preloader, footer, metadata, sr-only

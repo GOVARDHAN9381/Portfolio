@@ -6,9 +6,10 @@
  */
 
 export const identity = {
-  firstName: "GOVARDHAN",
-  lastName: "REDDY",
+  firstName: "NARAPAREDDY",
+  lastName: "GOVARDHAN REDDY",
   fullName: "Narapareddy Govardhan Reddy",
+  initials: "NGR",
   role: "ASPIRING SOFTWARE DEVELOPER",
   tagline:
     "Computer Science Engineering student passionate about software development, artificial intelligence and cloud automation — I build practical, high-impact applications that solve real-world problems, from AI-guided mentoring platforms to security-tested systems.",

@@ -20,10 +20,11 @@ const serifAccent = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "GOVARDHAN REDDY — Aspiring Software Developer",
+  title: "NARAPAREDDY GOVARDHAN REDDY — Aspiring Software Developer",
   description:
     "Portfolio of Narapareddy Govardhan Reddy — CSE student and aspiring software developer building AI systems, security tools and modern web applications. Class of 2028, Saveetha School of Engineering.",
   keywords: [
+    "Narapareddy Govardhan Reddy",
     "Govardhan Reddy",
     "portfolio",
     "CSE student",

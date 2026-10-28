@@ -311,6 +311,106 @@ function DeepCore() {
   );
 }
 
+/* ════════════════════════ MOVING STARS ════════════════════════
+   A living starfield wrapping the descent shaft. Stars rise past
+   the camera (you feel the fall), twinkle per-star, swirl slowly
+   around the axis, and streak faster the quicker you scroll.   */
+const STARS_VERT = /* glsl */ `
+  uniform float uTime;
+  uniform float uDrift;
+  attribute float aSize;
+  attribute float aPhase;
+  attribute vec3 aColor;
+  varying float vAlpha;
+  varying vec3 vColor;
+  void main() {
+    vec3 p = position;
+    // stars climb past the descending camera — infinite wrap recycle
+    float span = 34.0;
+    p.y = mod(position.y + uTime * (0.30 + uDrift) + aPhase * span, span) - 24.0;
+    // slow global swirl around the descent axis
+    float a = uTime * 0.008;
+    float c = cos(a), s = sin(a);
+    p.xz = mat2(c, -s, s, c) * p.xz;
+    vec4 mv = modelViewMatrix * vec4(p, 1.0);
+    float dist = -mv.z;
+    float tw = 0.55 + 0.45 * sin(uTime * (0.9 + aPhase * 1.7) + aPhase * 93.7);
+    vAlpha = tw * mix(0.16, 1.0, smoothstep(52.0, 15.0, dist));
+    vColor = aColor;
+    gl_PointSize = min(aSize * (150.0 / dist), 6.5);
+    gl_Position = projectionMatrix * mv;
+  }
+`;
+const STARS_FRAG = /* glsl */ `
+  varying float vAlpha;
+  varying vec3 vColor;
+  void main() {
+    float d = length(gl_PointCoord - 0.5);
+    float core = smoothstep(0.5, 0.02, d);
+    gl_FragColor = vec4(vColor, core * core * vAlpha);
+  }
+`;
+
+function MovingStars({ lite }: { lite: boolean }) {
+  const mat = useRef<THREE.ShaderMaterial>(null!);
+  const count = lite ? 900 : 2400;
+  const { positions, sizes, phases, colors } = useMemo(() => {
+    const positions = new Float32Array(count * 3);
+    const sizes = new Float32Array(count);
+    const phases = new Float32Array(count);
+    const colors = new Float32Array(count * 3);
+    const rnd = mulberry32(77);
+    const tints = [new THREE.Color("#f4fffa"), new THREE.Color("#eafff4"), new THREE.Color("#7dffc8"), new THREE.Color("#00ff9d")];
+    for (let i = 0; i < count; i++) {
+      const ang = rnd() * Math.PI * 2;
+      const r = 6.5 + Math.pow(rnd(), 0.65) * 46;
+      positions[i * 3] = Math.cos(ang) * r;
+      positions[i * 3 + 1] = -24 + rnd() * 34;
+      positions[i * 3 + 2] = Math.sin(ang) * r * 0.85 - 3;
+      sizes[i] = 0.6 + Math.pow(rnd(), 2.4) * 2.6;
+      phases[i] = rnd();
+      const pick = rnd();
+      const tint = pick < 0.5 ? tints[0] : pick < 0.78 ? tints[1] : pick < 0.94 ? tints[2] : tints[3];
+      colors[i * 3] = tint.r;
+      colors[i * 3 + 1] = tint.g;
+      colors[i * 3 + 2] = tint.b;
+    }
+    return { positions, sizes, phases, colors };
+  }, [count]);
+  const uniforms = useMemo(() => ({ uTime: { value: 0 }, uDrift: { value: 0 } }), []);
+
+  useFrame((state, delta) => {
+    mat.current.uniforms.uTime.value = state.clock.elapsedTime;
+    // scroll velocity makes the starfield streak upward — the fall feels real
+    mat.current.uniforms.uDrift.value = THREE.MathUtils.damp(
+      mat.current.uniforms.uDrift.value,
+      world.v * 2.8,
+      2.4,
+      delta
+    );
+  });
+
+  return (
+    <points frustumCulled={false}>
+      <bufferGeometry>
+        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
+        <bufferAttribute attach="attributes-aSize" args={[sizes, 1]} />
+        <bufferAttribute attach="attributes-aPhase" args={[phases, 1]} />
+        <bufferAttribute attach="attributes-aColor" args={[colors, 3]} />
+      </bufferGeometry>
+      <shaderMaterial
+        ref={mat}
+        vertexShader={STARS_VERT}
+        fragmentShader={STARS_FRAG}
+        uniforms={uniforms}
+        transparent
+        depthWrite={false}
+        blending={THREE.AdditiveBlending}
+      />
+    </points>
+  );
+}
+
 /* ════════════════════════ JOURNEY SPINE ════════════════════════
    Six milestone gates threaded down the void between IDENTITY
    and WORKS — one per journey phase. The camera dives THROUGH
@@ -629,6 +729,7 @@ export const ScrollWorld = memo(function ScrollWorld() {
             <Portal />
             <JourneySpine lite={lite} />
             <DeepCore />
+            <MovingStars lite={lite} />
             <Sparkles
               count={lite ? 60 : 110}
               size={2.2}

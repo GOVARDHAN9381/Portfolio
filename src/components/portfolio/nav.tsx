@@ -60,8 +60,7 @@ export default function Nav() {
             className="font-display text-lg font-bold tracking-tight text-foreground transition-colors hover:text-emerald-300"
             onClick={() => setOpen(false)}
           >
-            {identity.firstName[0]}
-            {identity.lastName[0]}
+            {identity.initials}
             <span className="text-emerald-400">.</span>
           </a>
 
