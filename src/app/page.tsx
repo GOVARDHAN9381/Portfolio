@@ -1,5 +1,6 @@
 import Preloader from "@/components/portfolio/preloader";
 import CustomCursor from "@/components/portfolio/custom-cursor";
+import CursorStars from "@/components/portfolio/cursor-stars";
 import Nav from "@/components/portfolio/nav";
 import Hero from "@/components/portfolio/hero";
 import About from "@/components/portfolio/about";
@@ -20,6 +21,7 @@ export default function Page() {
 
       {/* global effects */}
       <CustomCursor />
+      <CursorStars />
       <div className="film-grain" aria-hidden="true" />
 
       {/* HUD nav + descent indicator */}

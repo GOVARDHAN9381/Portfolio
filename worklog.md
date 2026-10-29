@@ -234,3 +234,24 @@ Work Log:
 
 Stage Summary:
 - SEND EMAIL now works in every context: new-tab mail compose with prefilled message + clipboard copy fallback + visible click feedback; WhatsApp CTA opens outside the iframe too
+
+---
+Task ID: 12
+Agent: Main agent (Z.ai)
+Task: v6.2 — 3D cursor star swarm (stars swirling around the cursor)
+
+Work Log:
+- User feedback: "add stars 3d visual like moving around cursor"
+- NEW src/components/portfolio/cursor-stars.tsx — CursorStars: full-screen 2D canvas (z-30, pointer-events-none, above content / below nav+HUD+modal, no extra WebGL context) rendering a 3D star cloud that swirls around the cursor:
+  * 150 stars (64 touch) each on its own tilted+yawed orbital ring around the pointer anchor, some retrograde; radii biased tight (10..160px, pow 2.1)
+  * true 3D: perspective projection F/(F+z), depth drives size + alpha + parallax
+  * cloud anchor springs toward the pointer (exp damp), smoothed velocity makes stars TRAIL fast moves (depth-weighted lag — nearer stars lag more)
+  * faint mint nebula halo binds the cloud; per-star twinkle; additive 'lighter' compositing; white/mint palette
+  * hidden until first pointer move (inline opacity + started-flag fade ramp 0.9s); prefers-reduced-motion disables entirely; visibilitychange pause; dpr cap 1.5; full listener cleanup
+- Mounted in page.tsx after CustomCursor
+- BUG found+fixed during QA: fade ramp originally gated on canvas.style.opacity / auto-started from mount — stars rendered invisible (alpha 0) or before first move; fixed with started flag set in onMove
+- VERIFIED: canvas pixel-read proof — lit-pixel centroid (1118,276)/(1153,264) vs cursor (1155,265)/(1150,260) = swarm gathered exactly at cursor; zoom screenshot shows distinct glowing cluster + nebula halo; lint clean; zero page errors (mobile 390x844 clean too)
+- Screenshots: v6-05 (first pass), v6-06/v6-07 (final swarm at cursor)
+
+Stage Summary:
+- The portfolio now has an interactive 3D star swarm that follows and orbits the cursor anywhere on the page — layered above content, below UI chrome, zero extra WebGL cost
