@@ -8,6 +8,8 @@ type Props = {
   children: React.ReactNode;
   tone?: "cyan" | "ghost";
   className?: string;
+  target?: string;
+  rel?: string;
   onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 };
 
@@ -21,6 +23,8 @@ export default function FluidButton({
   children,
   tone = "cyan",
   className = "",
+  target,
+  rel,
   onClick,
 }: Props) {
   const ref = useRef<HTMLAnchorElement>(null);
@@ -62,6 +66,8 @@ export default function FluidButton({
     <motion.a
       ref={ref}
       href={href}
+      target={target}
+      rel={rel}
       onClick={onClick}
       onPointerMove={move}
       onPointerEnter={enter}

@@ -215,3 +215,22 @@ Work Log:
 Stage Summary:
 - The void is now alive: a moving, twinkling, scroll-reactive starfield wraps the entire descent
 - Full name NARAPAREDDY GOVARDHAN REDDY now drives every name surface: hero, nav logo NGR., preloader, footer, metadata, sr-only
+
+---
+Task ID: 11
+Agent: Main agent (Z.ai)
+Task: v6.1 — SEND EMAIL button fix (mailto silent no-op in iframes / no-mail-client devices)
+
+Work Log:
+- User feedback: "send mail button also not working correctly" — root cause: FluidButton rendered a same-tab mailto: anchor with no target; sandboxed preview iframes and devices without a mail handler silently no-op mailto
+- fluid-button.tsx: added optional target/rel props passed through to the motion.a anchor
+- contact.tsx hardening:
+  * SEND EMAIL -> prefilled mail compose (subject "Portfolio contact — let's build something" + body greeting) opened in a NEW tab (target=_blank rel=noreferrer)
+  * onClick -> navigator.clipboard.writeText(email) (catch-guarded) + button label flips to "EMAIL COPIED ✓" (Check icon) for 2.6s then auto-reverts — guaranteed visible feedback in every context
+  * MESSAGE ON WHATSAPP also given target=_blank rel=noreferrer (was navigating inside the iframe)
+  * direct-channels grid anchors (WHATSAPP/EMAIL/PHONE) -> target=_blank rel=noreferrer
+- Verified desktop 1440x900: anchor attrs correct (mailto with subject+body, _blank), live click -> label flipped to "EMAIL COPIED ✓", URL stayed localhost:3000 (no navigation), label auto-reverted after 2.6s; footer full name + stars + DeepCore confirmed in screenshot
+- bun run lint clean; zero page errors; screenshot scripts/verify/v6-04-email-click.png
+
+Stage Summary:
+- SEND EMAIL now works in every context: new-tab mail compose with prefilled message + clipboard copy fallback + visible click feedback; WhatsApp CTA opens outside the iframe too

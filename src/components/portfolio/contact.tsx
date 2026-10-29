@@ -1,12 +1,25 @@
 "use client";
 
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, MessageCircle } from "lucide-react";
+import { Check, Mail, MessageCircle } from "lucide-react";
 import { identity, socials } from "@/config/portfolio";
 import FluidButton from "./fluid-button";
 import { SectionHeading } from "./about";
 
 export default function Contact() {
+  /* click feedback: even if the device has no mail app (or we sit in a
+     sandboxed preview iframe where mailto is blocked), the address is
+     copied to the clipboard and the button proves the tap landed. */
+  const [copied, setCopied] = useState(false);
+  const copyTimer = useRef<number | null>(null);
+
+  const handleEmail = () => {
+    navigator.clipboard?.writeText(identity.email).catch(() => {});
+    setCopied(true);
+    if (copyTimer.current) window.clearTimeout(copyTimer.current);
+    copyTimer.current = window.setTimeout(() => setCopied(false), 2600);
+  };
   return (
     <section id="transmit" className="relative z-10 flex flex-col px-5 pb-10 pt-28 sm:px-8 sm:pt-36">
       {/* aurora backdrop */}
@@ -45,15 +58,30 @@ export default function Contact() {
             <FluidButton
               href={identity.whatsapp}
               tone="cyan"
+              target="_blank"
+              rel="noreferrer"
               className="!bg-emerald-400/10"
             >
               <MessageCircle className="h-4 w-4" />
               MESSAGE ON WHATSAPP
             </FluidButton>
-            {/* secondary — email client */}
-            <FluidButton href={`mailto:${identity.email}`} tone="ghost">
-              <Mail className="h-4 w-4" />
-              SEND EMAIL
+            {/* secondary — prefilled mail compose in a new tab; the address
+                is also copied to the clipboard as a guaranteed fallback */}
+            <FluidButton
+              href={`mailto:${identity.email}?subject=${encodeURIComponent(
+                "Portfolio contact — let's build something"
+              )}&body=${encodeURIComponent("Hi Govardhan,\n\n")}`}
+              tone="ghost"
+              target="_blank"
+              rel="noreferrer"
+              onClick={handleEmail}
+            >
+              {copied ? (
+                <Check className="h-4 w-4 text-emerald-300" />
+              ) : (
+                <Mail className="h-4 w-4" />
+              )}
+              {copied ? "EMAIL COPIED ✓" : "SEND EMAIL"}
             </FluidButton>
             <span className="font-hud text-[10px] text-muted-foreground">
               RESPONSE TIME · <span className="text-emerald-300">&lt; 24 HRS</span>
@@ -119,6 +147,8 @@ export default function Contact() {
                 {row.href ? (
                   <a
                     href={row.href}
+                    target="_blank"
+                    rel="noreferrer"
                     className="mt-2 inline-block break-all text-sm text-foreground/90 transition-colors hover:text-emerald-300"
                   >
                     {row.v}
