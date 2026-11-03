@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: portfolio
+    name: govardhan-portfolio
     runtime: node
     plan: free
     buildCommand: npm install --include=dev && npm run build
