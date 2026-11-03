@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { journey, about } from "@/config/portfolio";
 import { SectionHeading } from "./about";
+import { FillBar } from "./fill-bar";
 
 /* cumulative depth percentage per level — 6 levels → 17..100% */
 const LEVEL_PCTS = journey.map((_, i) =>
@@ -220,20 +221,18 @@ export default function Journey() {
                     {j.desc}
                   </p>
 
-                  {/* per-card level fill */}
-                  <div className="mt-5 h-px w-full overflow-hidden bg-white/8">
-                    <motion.div
-                      initial={{ scaleX: 0 }}
-                      whileInView={{ scaleX: LEVEL_PCTS[i] / 100 }}
-                      viewport={{ once: true, margin: "-40px" }}
-                      transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                      className={`h-full origin-left ${
-                        now
-                          ? "bg-emerald-400 shadow-[0_0_8px_rgba(0,255,157,0.7)]"
-                          : "bg-emerald-400/40"
-                      }`}
-                    />
-                  </div>
+                  {/* per-card level fill — deterministic, fast-scroll proof */}
+                  <FillBar
+                    pct={LEVEL_PCTS[i]}
+                    delay={0.2}
+                    duration={1}
+                    trackClass="mt-5 h-px w-full bg-white/8"
+                    fillClass={
+                      now
+                        ? "bg-emerald-400 shadow-[0_0_8px_rgba(0,255,157,0.7)]"
+                        : "bg-emerald-400/40"
+                    }
+                  />
                 </motion.li>
               );
             })}

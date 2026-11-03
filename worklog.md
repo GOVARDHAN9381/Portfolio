@@ -255,3 +255,21 @@ Work Log:
 
 Stage Summary:
 - The portfolio now has an interactive 3D star swarm that follows and orbits the cursor anywhere on the page — layered above content, below UI chrome, zero extra WebGL cost
+
+---
+Task ID: 13
+Agent: Main agent (Z.ai)
+Task: v7 — ARSENAL percentage bars not filling (MOD-01 / MOD-03 stuck empty)
+
+Work Log:
+- User feedback + screenshot: in THE ARSENAL only MOD-02 bars were filled; MOD-01 (Languages & Core) and MOD-03 (Web·Cloud·Security) showed the % text but fills stuck at scaleX(0)
+- Root cause: per-element framer-motion whileInView (IntersectionObserver) on thin 5px bars — during fast scrolls the observer callback can be delivered after the element already left the margin-shrunk viewport (isIntersecting:false), so the reveal never fires and `once:true` keeps observing a state that never re-triggers on the user's path; same fragile pattern existed on the JOURNEY per-card depth fills (1px)
+- NEW src/hooks/use-entered-view.ts — useEnteredView(marginPx): deterministic "has entered the viewport" detector that cannot be skipped: rect check re-run on every scroll (capture-phase, rAF-throttled) + resize, plus post-mount re-checks (300ms/1200ms) and an IO backup with expanded rootMargin; once semantics
+- NEW src/components/portfolio/fill-bar.tsx — FillBar(pct, delay, duration, trackClass, fillClass): shared animated percentage bar driven by useEnteredView (animate prop, not whileInView)
+- skills.tsx: SkillBar wrapper + fill now driven by useEnteredView; module grid has one grid-level deterministic trigger for the panel stagger; journey.tsx per-card DEPTH fills switched to FillBar (active-card glow preserved via fillClass)
+- VERIFIED desktop 1440x900: (A) instant jump to #arsenal -> all 18 bars filled proportionally in all 3 panels; (B) fresh load + 12 rapid wheel flings past arsenal to scrollY 8917 then smooth-scroll back -> all 18 bars filled (exact scenario that broke the old code); (C) journey -> JOURNEY COMPLETION 83% + route map 17/33/50/67/83/100% + LVL03≈50% LVL04≈67% LVL05≈83% card fills visible
+- Mobile iPhone 14 (390px): MOD-01/MOD-02 bars all filled; console clean (benign THREE.Clock/drei warnings only), zero page errors; bun run lint clean
+- Screenshots: scripts/verify/v7-01-arsenal-instant-jump.png, v7-02-arsenal-after-fling.png, v7-03-journey-fills.png, v7-04-mobile-arsenal.png
+
+Stage Summary:
+- Every percentage bar (ARSENAL modules + JOURNEY depth levels) now fills reliably no matter how the user arrives — instant jump, fast fling past and back, or slow scroll; the IntersectionObserver flake class is eliminated for all thin bars
