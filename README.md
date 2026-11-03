@@ -37,7 +37,7 @@ An interactive, futuristic 3D portfolio built with Next.js, React 19, Three.js /
 4. Render will automatically detect `render.yaml` and configure:
    - **Service Type**: Web Service
    - **Environment**: Node
-   - **Build Command**: `npm install && npm run build`
+   - **Build Command**: `npm install --include=dev && npm run build`
    - **Start Command**: `npm start`
 5. Click **Apply** to deploy.
 
@@ -47,7 +47,7 @@ An interactive, futuristic 3D portfolio built with Next.js, React 19, Three.js /
 3. Configure the following settings:
    - **Name**: `portfolio` (or your choice)
    - **Runtime**: `Node`
-   - **Build Command**: `npm install && npm run build`
+   - **Build Command**: `npm install --include=dev && npm run build`
    - **Start Command**: `npm start`
    - **Instance Type**: `Free`
 4. Under **Environment Variables**, add:
