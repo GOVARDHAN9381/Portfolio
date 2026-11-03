@@ -62,3 +62,4 @@ An interactive, futuristic 3D portfolio built with Next.js, React 19, Three.js /
 - **UI Library**: React 19, Tailwind CSS, Radix UI
 - **3D & Visuals**: Three.js, React Three Fiber, Drei, Framer Motion
 - **Icons**: Lucide React
+
